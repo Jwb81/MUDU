@@ -10,6 +10,7 @@ CREATE TABLE users  (
     first_name VARCHAR(200) NOT NULL,
     last_name VARCHAR(200) NOT NULL,
     age INT NOT NULL,
+    address varchar(200) NOT NULL,
 	email_address VARCHAR(200) NOT NULL,
     PRIMARY KEY (username)
 );
