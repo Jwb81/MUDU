@@ -21,7 +21,38 @@ const orm = {
                 });
             });
         })
-    }
+    },
+
+    findUser: (username) => {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
+
+            conn.query(query, (err, userArr) => {
+                if (err) {
+                    return reject({
+                        status: 500,
+                        success: false,
+                        error: err,
+                        message: `SQL failed in 'findUser'`
+                    });
+                }
+
+                if (!userArr.length) {
+                    return reject({
+                        status: 404,
+                        success: false,
+                        message: `No user found with those credentials`
+                    });
+                }
+
+                resolve({
+                    success: true,
+                    user: userArr[0]
+                });
+            })
+        })
+    },
+
 };
 
 
