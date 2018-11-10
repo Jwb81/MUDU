@@ -19,4 +19,4 @@ router.get('/all-drinking-buddies', (req, res) => {
         })
 })
 
-module.exports = router;
+module.exports = router; 
