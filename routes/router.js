@@ -1,10 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
+const orm = require('../config/orm');
+
 router.get('/', (req, res) => {
     res.json({
         success: true
     })
 })
 
-module.exports = router;
+router.get('/all-drinking-buddies', (req, res) => {
+    orm.getAllDrinkingBuddies()
+        .then(response => {
+            res.json(response);
+        })
+        .catch(err => {
+            res.json(err);
+        })
+})
+
+module.exports = router; 
