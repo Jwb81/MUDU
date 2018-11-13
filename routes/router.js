@@ -31,8 +31,8 @@ router.put('/beers/:beerId/name/:name/', (req, res) => {
             styleId: req.body.styleId,
             name: req.body.name,
             label:req.body.label
-    });
-}
+    })
+})
 
 
 //delete a beer from the db
@@ -54,4 +54,4 @@ router.get('/all-drinking-buddies', (req, res) => {
         })
 })
 
-module.exports = router; 
+module.exports = router;
