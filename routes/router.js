@@ -21,7 +21,12 @@ router.get('/beers', (req, res) => {
 router.post('/beers', (req, res) => {
     res.json(response).catch(err => {
         res.json(err);
-        res.send({type: 'POST'});
+        res.send({
+            type: 'POST',
+            styleId: req.body.styleId,
+            name: req.body.name,
+            label:req.body.label
+        });
     })
 })
 
@@ -29,7 +34,12 @@ router.post('/beers', (req, res) => {
 router.put('/beers/:beerId/name/:name/', (req, res) => {
     res.json(response).catch(err => {
         res.json(err);
-        res.send({type: 'PUT'});
+        res.send({
+            type: 'PUT',
+            styleId: req.body.styleId,
+            name: req.body.name,
+            label:req.body.label
+        });
     })
 })
 
