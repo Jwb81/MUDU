@@ -19,29 +19,21 @@ router.get('/beers', (req, res) => {
 
 //add new beer into the db
 router.post('/beers', (req, res) => {
-    res.json(response).catch(err => {
-        res.json(err);
-        res.send({
-            type: 'POST',
-            styleId: req.body.styleId,
-            name: req.body.name,
-            label:req.body.label
-        });
+    db.create(req.body).then((beer)=> {
+        res.send(beer);
     })
 })
 
 //update a new beers to the db
 router.put('/beers/:beerId/name/:name/', (req, res) => {
-    res.json(response).catch(err => {
-        res.json(err);
-        res.send({
+    res.send({
             type: 'PUT',
             styleId: req.body.styleId,
             name: req.body.name,
             label:req.body.label
-        });
-    })
-})
+    });
+}
+
 
 //delete a beer from the db
 router.delete('/beers/:beerId/name/:name', (req, res) => {
