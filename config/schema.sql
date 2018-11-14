@@ -10,19 +10,22 @@ CREATE TABLE users  (
     last_name VARCHAR(200) NOT NULL,
     age INT NOT NULL,
     address varchar(200) NOT NULL,
-	  email_address VARCHAR(200) NOT NULL,
+    email_address VARCHAR(200) NOT NULL,
     PRIMARY KEY (username)
 );
 
 CREATE TABLE beer_matches (
-	  beer_id  VARCHAR(200) NOT NULL,
+    beer_id  VARCHAR(200) NOT NULL,
     username VARCHAR(200) NOT NULL,
     matched boolean,
     primary key (beer_id, username)
+    
 
 );
 
 CREATE TABLE drinking_buddies (
-	  username1 VARCHAR(200) NOT NULL,
-    username2 VARCHAR(200) NOT NULL
+	username1 VARCHAR(200) NOT NULL,
+    username2 VARCHAR(200) NOT NULL,
+
+    PRIMARY KEY(username1, username2)
 );
