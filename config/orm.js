@@ -5,6 +5,8 @@ const maxBuddyDistance = 20; // 20 miles
 /**
  * FUNCTIONS
  * 
+ * @function getUnmatchedBeers
+ * 
  * @function getDrinkingBuddies
  * @function setDrinkingBuddies
  * 
@@ -22,6 +24,12 @@ const maxBuddyDistance = 20; // 20 miles
  */
 
 const orm = {
+
+    getUnmatchedBeers: (username) => {
+        
+    },
+
+
     getDrinkingBuddies: (username) => {
         return new Promise((resolve, reject) => {
             const query = 'SELECT * FROM drinking_buddies WHERE username1 = ? OR username2 = ?';

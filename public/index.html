@@ -52,7 +52,7 @@
 
     <script>
       $.get('/allbeers/1', data => {
-        console.log(data.data[0]);
+        console.log(data);
         data = data.data;
         $('#card-image').attr('src', data[0].labels.large);
       })

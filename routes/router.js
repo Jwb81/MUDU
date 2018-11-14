@@ -4,20 +4,32 @@ const router = express.Router();
 var connection = require("../config/connection.js");
 const orm = require('../config/orm');
 
+// read in all beers from api
+
+
 router.get('/', (req, res) => {
     res.json({
         success: true
     })
 })
 
-router.get('/all-drinking-buddies', (req, res) => {
-    orm.getDrinkingBuddies()
+router.get('/all-drinking-buddies/:username', (req, res) => {
+    const username = req.params.username;
+
+    orm.getDrinkingBuddies(username)
         .then(response => {
             res.json(response);
         })
         .catch(err => {
             res.json(err);
         })
+})
+
+router.get('/unmatched-beers/:username', (req, res) => {
+    const username = req.params.username;
+
+    orm.getUnmatchedBeers(username);
+
 })
 
 router.get('/allbeers/:pageNumber', (req, res) => {
@@ -27,6 +39,23 @@ router.get('/allbeers/:pageNumber', (req, res) => {
         res.json(JSON.parse(response.body));
         // console.log(body);
     })
+})
+
+router.post('/beer-match', (req, res) => {
+    const username = req.body.username;
+    const beerId = req.body.beer_id;
+    const match = req.body.match;
+
+    orm.updateMatch(username, beerId, match)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(err => {
+            
+        })
+
+
+
 })
 
 module.exports = router; 
