@@ -24,9 +24,9 @@ const maxBuddyDistance = 20; // 20 miles
 const orm = {
     getDrinkingBuddies: (username) => {
         return new Promise((resolve, reject) => {
-            const query = 'SELECT * FROM drinking_buddies WHERE username = ?';
+            const query = 'SELECT * FROM drinking_buddies WHERE username1 = ? OR username2 = ?';
 
-            conn.query(query, [username], (err, drinkingBuddies) => {
+            conn.query(query, [username, username], (err, drinkingBuddies) => {
                 if (err) {
                     return reject({
                         status: 500,
@@ -115,6 +115,8 @@ const orm = {
 
             })
         });
+
+        resolve();
     },
 
     findUser: (username) => {
