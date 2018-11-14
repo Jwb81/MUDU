@@ -22,7 +22,7 @@
     <div class="row">
             <div class="col-12">
             <div class="card">
-                    <img class="card-img-top" src="https://images.freshop.com/00018200001468/f02bd62416fb4c37c6ad4f1997c9ba4a_medium.png"Card image cap">
+                    <img id='card-image' class="card-img-top" src="https://images.freshop.com/00018200001468/f02bd62416fb4c37c6ad4f1997c9ba4a_medium.png"Card image cap">
                     <div class="card-body">
                       <h4 class="card-title">BUSCH</h4>
                       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -44,9 +44,18 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
     <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+
+    <script>
+      $.get('/allbeers/1', data => {
+        console.log(data.data[0]);
+        data = data.data;
+        $('#card-image').attr('src', data[0].labels.large);
+      })
+    </script>
   </body>
 </html>
