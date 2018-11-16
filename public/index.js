@@ -121,15 +121,15 @@ const handleBeerSelection = (evt) => {
     const match = $(evt.currentTarget).data('match');
 
     // send the match to the database
-    // $.ajax({
-    //     method: 'POST',
-    //     url: '/beer-match',
-    //     data: {
-    //         username,
-    //         beer_id: beerID,
-    //         match
-    //     }
-    // })
+    $.ajax({
+        method: 'POST',
+        url: '/beer-match',
+        data: {
+            username,
+            beer_id: beerID,
+            match
+        }
+    })
 
     const allCards = $('.card');
     $(allCards[0]).remove();                // remove current card
