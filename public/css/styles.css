@@ -1,0 +1,70 @@
+body {
+    box-sizing: border-box;
+}
+
+.card {
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 20px rgb(200,200,200);
+    height: 90vh;
+    width: 480px;
+    max-width: 90%;
+    border-radius: 10px;
+
+    position: relative;
+}
+
+.beer-image {
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.info-image {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 40px;
+}
+
+.absolute-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    text-align: center;
+}
+
+.info-panel {
+    position: absolute;
+    top: 0;
+    background-color: rgba(50,50, 70,0.95);
+    z-index: 5;
+    width: 100%;
+    right: 0;
+    height: 75%;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+
+
+
+
+
+/* one style classes */
+.center {
+    text-align: center;
+}
+
+.red-border {
+    border: 1px solid red;
+}
+
+.float-right {
+    float: right;
+}
+
+.hidden {
+    display: none;
+}

@@ -10,7 +10,6 @@ const orm = require('../config/orm');
  * 3. filter over that array whenever needed
  */
 const breweryDbURL = 'https://sandbox-api.brewerydb.com/v2/beers?key=d00fe48488b9bc5528a4f5aab7f5c4ed&withBreweries=Y';
-let pages;
 let allBeers = [];
 
 const sleep = (ms) => {
@@ -24,7 +23,7 @@ const getBeersFromAPI = new Promise((resolve, reject) => {
             return reject(err);
         }
         body = JSON.parse(body);
-        pages = body.numberOfPages;
+        let pages = body.numberOfPages;
         // console.log(pages);
 
         let promiseArray = [];
@@ -97,7 +96,6 @@ router.get('/unmatched-beers/:username', (req, res) => {
         .catch(err => {
             res.send(err);
         })
-
 })
 
 router.get('/allbeers/:pageNumber', (req, res) => {
@@ -109,7 +107,7 @@ router.get('/allbeers/:pageNumber', (req, res) => {
     })
 })
 
-router.post('/beer-match', (req, res) => {
+router.put('/beer-match', (req, res) => {
     const username = req.body.username;
     const beerId = req.body.beer_id;
     const match = req.body.match;
@@ -121,9 +119,20 @@ router.post('/beer-match', (req, res) => {
         .catch(err => {
 
         })
+})
 
+router.post('/beer-match', (req, res) => {
+    const username = req.body.username;
+    const beerId = req.body.beer_id;
+    const match = req.body.match;
 
+    orm.addBeerMatch(username, beerId, match)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(err => {
 
+        })
 })
 
 module.exports = router;

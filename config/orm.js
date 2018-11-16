@@ -48,7 +48,6 @@ const orm = {
                             }
                         }
                     }
-                    console.log(unmatchedBeerArray.length);
                     resolve(unmatchedBeerArray);
                 })
         })
@@ -78,6 +77,14 @@ const orm = {
     },
 
     setDrinkingBuddies: (username) => {
+        // get user's 'beer_matches' where 'matched' === true
+        // join that result with the entire 'beer_matches' table on the 'beer_id' column
+            // limit to where 'matched' === true
+            // limit to where 'username' is different
+        // find unique usernames
+        // add usernames to array
+        // add all usernames in that array to the user's 'drinking_buddies' table
+        
         return new Promise((resolve, reject) => {
             // get drinking buddies for selected users
             const drinkingBuddiesPromise = getDrinkingBuddies(username)
