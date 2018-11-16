@@ -1,6 +1,7 @@
 const conn = require('./connection');
 
 const maxBuddyDistance = 20; // 20 miles
+const getBeerLimit = 10;
 
 /**
  * FUNCTIONS
@@ -16,17 +17,41 @@ const maxBuddyDistance = 20; // 20 miles
  * 
  * @function deleteUser
  * 
- * @function addMatch
- * @function getMatches
- * @function updateMatch
+ * @function addBeerMatch
+ * @function getBeerMatches
+ * @function updateBeerMatch
  * 
  * 
  */
 
 const orm = {
 
-    getUnmatchedBeers: (username) => {
-        
+    getUnmatchedBeers: (username, allBeers) => {
+        return new Promise((resolve, reject) => {
+            // return once 10 unmatched beers are found
+            let unmatchedBeerCount = 0;
+            let unmatchedBeerArray = [];
+
+            // get all beer matches
+            orm.getBeerMatches(username)
+                .then(data => {
+                    const matches = data.data;
+                    // see if a beer is in beer matches
+                    for (let i = 0; i < allBeers.length; i++) {
+                        const foundBeers = matches.filter(match => match.beer_id === allBeers[i].id);
+                        if (!foundBeers.length) {
+                            unmatchedBeerArray = unmatchedBeerArray.concat(allBeers[i]);
+                            unmatchedBeerCount++;
+
+                            if (unmatchedBeerCount === getBeerLimit) {
+                                break;
+                            }
+                        }
+                    }
+                    console.log(unmatchedBeerArray.length);
+                    resolve(unmatchedBeerArray);
+                })
+        })
     },
 
 
@@ -121,10 +146,10 @@ const orm = {
                     });
                 })
 
+                resolve();
+
             })
         });
-
-        resolve();
     },
 
     findUser: (username) => {
@@ -242,7 +267,7 @@ const orm = {
         })
     },
 
-    addMatch: (username, beerId, match) => {
+    addBeerMatch: (username, beerId, match) => {
         return new Promise((resolve, reject) => {
             let query = 'INSERT INTO beer_matches (beer_id, username, matched) ';
             query += 'VALUES (?, ?, ?)';
@@ -269,7 +294,7 @@ const orm = {
         })
     },
 
-    getMatches: (username) => {
+    getBeerMatches: (username) => {
         return new Promise((resolve, reject) => {
             const query = 'SELECT * FROM beer_matches WHERE username = ?';
 
@@ -291,7 +316,7 @@ const orm = {
         })
     },
 
-    updateMatch: (username, beerId, match) => {
+    updateBeerMatch: (username, beerId, match) => {
         return new Promise((resolve, reject) => {
             const query = 'UPDATE beer_matches SET matched = ? WHERE username = ? AND beer_id = ?';
 

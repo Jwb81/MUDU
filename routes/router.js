@@ -90,7 +90,13 @@ router.get('/all-drinking-buddies/:username', (req, res) => {
 router.get('/unmatched-beers/:username', (req, res) => {
     const username = req.params.username;
 
-    orm.getUnmatchedBeers(username);
+    orm.getUnmatchedBeers(username, allBeers)
+        .then(arr => {
+            res.send(arr);
+        })
+        .catch(err => {
+            res.send(err);
+        })
 
 })
 
