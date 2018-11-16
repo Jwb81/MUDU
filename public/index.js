@@ -22,6 +22,24 @@ const getUnmatchedBeers = () => {
     })
 };
 
+// create accordion for matched beers
+const getMatchedBeers = () => {
+    const username = 'jay';
+    $.ajax({
+        method: 'GET',
+        url: `/matched-beers/${username}`
+    }).then(beers => {
+        console.log(beers);
+        Array.from(beers).forEach(beer => {
+            const newLayer = createAccordionLayer(beer);
+            $('#user-matches').append(newLayer);
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
 // create beer cards
 const createBeerCard = (beer) => {
     // create card div
@@ -149,4 +167,73 @@ const toggleInfoPanel = () => {
 
 }
 
+
+const createAccordionLayer = (match) => {
+    const button = $('<button>')
+        .addClass('accordion')
+        .val(match.name)
+        .click(handleAccordionEvent);
+
+    const dropdown = $('<div>')
+        .addClass('panel');
+    
+    const abv = $('<p>')
+        .text(`ABV: ${match.abv || '-'}`);
+
+    const category = $('<p>')
+        .text(`Category: ${match.style ? match.style.category.name : '-'}`);
+
+    const description = $('<p>')
+        .text(match.description);
+
+    const brewery = $('<p>')
+        .text(`Brewery: ${match.breweries ? match.breweries[0].name : '-'}`);
+
+    // append each layer
+    $(dropdown)
+        .append(abv)
+        .append(category)
+        .append(brewery)
+        .append(description)
+
+    return $('<div>')
+        .append(button)
+        .append(dropdown);
+}
+
+
+const handleAccordionEvent = (evt) => {
+    // get this layer
+    const thisLayer = $(evt.currentTarget)[0];
+
+    // close all other layers 
+    const allPanels = Array.from($('.panel'));
+    allPanels.forEach(currentPanel => {
+        currentPanel.style.display = 'none';
+    })
+
+    /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        thisLayer.classList.toggle("active-panel");
+
+        /* Toggle between hiding and showing the active panel */
+        var panel = thisLayer.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+}
+
+// ACCORDION HANDLERS
+var acc = document.getElementsByClassName("accordion");
+for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", handleAccordionEvent) 
+    
+} 
+
+
+
+// STARTUP FUNCTIONS
 getUnmatchedBeers();
+getMatchedBeers();

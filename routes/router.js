@@ -98,6 +98,23 @@ router.get('/unmatched-beers/:username', (req, res) => {
         })
 })
 
+router.get('/matched-beers/:username', (req, res) => {
+    const username = req.params.username;
+
+    orm.getBeerMatches(username)
+        .then(results => {
+            // filter only true matches
+            // results = results.data;
+            const matches = results.data
+                .filter(x => x.matched)
+                
+            res.json(matches);
+        })
+        .catch(err => {
+            res.send(err);
+        })
+})
+
 router.get('/allbeers/:pageNumber', (req, res) => {
     const page = req.params.pageNumber || 1;
     request(`https://sandbox-api.brewerydb.com/v2/beers?key=d00fe48488b9bc5528a4f5aab7f5c4ed&p=${page}&withBreweries=Y`, (err, response, body) => {
