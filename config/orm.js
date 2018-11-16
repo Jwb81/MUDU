@@ -277,9 +277,9 @@ const orm = {
     addBeerMatch: (username, beerId, match) => {
         return new Promise((resolve, reject) => {
             let query = 'INSERT INTO beer_matches (beer_id, username, matched) ';
-            query += 'VALUES (?, ?, ?)';
+            query += 'VALUES (?, ?, ' + match + ')';
 
-            const q = conn.query(query, [beerId, username, match], (err, data) => {
+            conn.query(query, [beerId, username, match], (err, data) => {
                 if (err) {
                     return reject({
                         status: 500,
@@ -289,8 +289,6 @@ const orm = {
                     });
                 }
 
-                console.log(`q: ${q.sql}`);
-                
                 if (!data.affectedRows) {
                     console.log(`No rows were entered in 'addMatch'`);
                 }

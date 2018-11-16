@@ -6,7 +6,7 @@ body {
     margin: 20px auto;
     padding: 20px;
     box-shadow: 0 0 20px rgb(200,200,200);
-    height: 90vh;
+    height: 85vh;
     width: 480px;
     max-width: 90%;
     border-radius: 10px;
@@ -45,6 +45,13 @@ body {
     text-align: center;
     color: white;
     border-radius: 10px 10px 0 0;
+}
+
+#page-down-arrow {
+    max-height: 50px;
+}
+#page-down-arrow:active {
+    border: none;
 }
 
 
