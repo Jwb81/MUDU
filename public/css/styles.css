@@ -159,7 +159,7 @@ body {
         padding-top: 0.1em; 
     }
     body {
-        background-color: brown;
+        background-color: lightgreen;
     }
     
 }
@@ -171,6 +171,6 @@ body {
        background-image: url("/images/Beer-Background-Main.jpg"); 
     }
     body {
-        background-color: lightgreen;
+        background-color: red;
     }
 }
