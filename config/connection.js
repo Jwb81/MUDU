@@ -1,12 +1,12 @@
 const mysql = require('mysql');
-const setup = require('./setup');
 
 let connection;
 
 if (process.env.JAWSDB_URL) {
   connection = mysql.createConnection(process.env.JAWSDB_URL)
 } else {
-    connection = mysql.createConnection(setup.localDB);
+  const setup = require('./setup');
+  connection = mysql.createConnection(setup.localDB);
 }
 
 // // Make connection

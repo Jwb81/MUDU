@@ -20,12 +20,14 @@ body {
     width: 480px;
     max-width: 90%;
     border-radius: 10px;
-
     position: relative;
+    background-color: darkgray;
+    font-family: 'Alegreya Sans SC', sans-serif;
 }
 
 .beer-image {
-    max-width: 90%;
+    width: auto;
+    max-height: 20%;
     margin: 0 auto;
 }
 
@@ -55,6 +57,7 @@ body {
     text-align: center;
     color: white;
     border-radius: 10px 10px 0 0;
+    font-family: 'Alegreya Sans SC', sans-serif;
 }
 
 #page-down-arrow {
@@ -69,6 +72,7 @@ body {
     min-height: 100vh;
     max-width: 90%;
     margin: 0 auto;
+    font-family: 'Alegreya Sans SC', sans-serif;
     /* background-color: gray; */
     /* text-align: center; */
 }
