@@ -148,7 +148,6 @@ body {
     align-self: center;
 } */
 
-
 @media screen and (max-width: 749px) {
 
     .containerForMainImage{
@@ -163,6 +162,22 @@ body {
     }
     
 }
+
+@media screen and (max-width: 720px) {
+
+    .containerForMainImage{
+        background-image: url("/images/750x1334-iphone-6-beer-background.jpg");
+        background-size:     cover;                       
+        background-repeat:   repeat-x;
+        background-position: center ;  
+        padding-top: 0.1em; 
+    }
+    body {
+        background-color: lightgreen;
+    }
+    
+}
+
 
 
 /* For width 400px and larger: */
