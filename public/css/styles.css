@@ -16,7 +16,8 @@ body {
 }
 
 .beer-image {
-    max-width: 90%;
+    width: auto;
+    max-height: 20%;
     margin: 0 auto;
 }
 
