@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-auth.js"></script>
+
     
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -22,36 +25,36 @@
 
 </head>
 <body>
-     <h1>Hey! Drink with us!</h1>
+    <h1>Hey! Drink with us!</h1>
     <h4>sign up to meet up</h4>
 
-    <div class="container">
-      <input id="txtEmail" type="email" placeholder="Email">
+      <div class="container">
+        
+        <input id="txtEmail" type="email" placeholder="Email">
 
-      <input id="txtPassword" type="password" placeholder="Password">
+        <input id="txtPassword" type="password" placeholder="Password">
 
-      <button id="btnLogin" class="btn btn-primary">Login</button>
+        <button id="btnLogin" class="btn btn-primary">Login</button>
 
-      <button id="btnSignUp" class="btn btn-success">Sign Up</button>
+        <button id="btnSignUp" class="btn btn-success">Sign Up</button>
 
-    </div>
+      </div>
 
-
-
-    
-<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-auth.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
       crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
       crossorigin="anonymous"></script>
+    
     <script>
       $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
       });
     </script>
+    
     <script src='./index.js'></script>
+    <script src='./app.js'></script>
   
 </body>
 </html>
