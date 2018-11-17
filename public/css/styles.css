@@ -168,7 +168,7 @@ body {
     
 }
 
-@media screen and (min-width: 361px) {
+@media screen and (min-width: 450px) {
 
     .containerForMainImage{
         background-image: url("/images/750x1334-iphone-6-beer-background.jpg");
@@ -183,7 +183,7 @@ body {
     
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 449px) {
 
     .containerForMainImage{
         background-image: url("/images/720x1280-samsung-lg-beer-background.jpg");
