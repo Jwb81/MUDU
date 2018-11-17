@@ -1,4 +1,5 @@
 // get more cards from the server
+//returns beers that are not seen by the user
 const getUnmatchedBeers = () => {
     const username = 'jay'; // get username here
     $.ajax({
@@ -23,6 +24,7 @@ const getUnmatchedBeers = () => {
 };
 
 // create accordion for matched beers
+//includes ajax returns beers that are liked by the user
 const getMatchedBeers = () => {
     const username = 'jay';
     $.ajax({
@@ -30,6 +32,8 @@ const getMatchedBeers = () => {
             url: `/matched-beers/${username}`
         }).then(beers => {
             Array.from(beers).forEach(beer => {
+                //panel is hidden at start
+                //accoridan shows alls the beers requested that are liked, accordian drops down info and creates the button and the panel that opens
                 const newLayer = createAccordionLayer(beer);
                 $('#user-matches').append(newLayer);
             })
@@ -67,6 +71,7 @@ const createBeerCard = (beer) => {
     const infoPanel = $('<div>')
         .addClass('hidden info-panel')
         .text(beer.description || 'No description provided...');
+        //if beer description is avalible it takes the beer description, if not return string 
 
     cardBody
         .append(cardTitle)
@@ -84,7 +89,7 @@ const createBeerCard = (beer) => {
 
     const category = $('<li>')
         .addClass('list-group-item')
-        .text('Category: ' + (beer.style ? beer.style.category.name : '-'));
+        .text('Category: ' + (beer.style ? beer.style.category.name : '-')); // inline if state statement (ternerary operator), if statement ,?, if true, , if fals
 
     list
         .append(abv)
