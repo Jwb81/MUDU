@@ -50,7 +50,7 @@ const createBeerCard = (beer) => {
     // IMAGE -------------------------------------------------
     const cardImage = $('<img>')
         .addClass('card-img-top beer-image ')
-        .attr('src', beer.labels ? beer.labels.large || beer.labels[0] : '');
+        .attr('src', beer.labels ? beer.labels.large || beer.labels[0] : './images/no_image_available.png');
 
 
 
