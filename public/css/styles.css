@@ -4,7 +4,7 @@ body {
     background-color:brown;
 }
 
-#containerForMainImage {
+.containerForMainImage {
     background-image: URL("/images/Beer-Background-Main.jpg");
     background-size:     cover;                       
     background-repeat:   repeat-x;
@@ -154,36 +154,44 @@ body {
     align-self: center;
 } */
 
+@media screen and (max-width: 749px) {
 
-@media screen and (max-width: 750px) {
-
-    .card-body center .absolute-bottom{
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        padding: 5.25rem;
-        bottom: 1;
-    }
-    
-    .card {
-        margin: 20px auto;
-        padding: 20px;
-        box-shadow: 0 0 20px rgb(200,200,200);
-        /* height: 100vh; */
-        width: 480px;
-        max-width: 90%;
-        border-radius: 10px;
-        position: relative;
-    }
-    
-    
-    .imageSwitch{
-        background-image: URL("images/750x1334-iphone-6-beer-background.jpg");
-        /* background-size:     cover;                       
+    .containerForMainImage{
+        background-image: url("/images/750x1334-iphone-6-beer-background.jpg");
+        background-size:     cover;                       
         background-repeat:   repeat-x;
-        background-position: center ;   */
-        padding-top: 0.1em;  
+        background-position: center ;  
+        padding-top: 0.1em; 
     }
     body {
         background-color: lightgreen;
+    }
+    
+}
+
+@media screen and (max-width: 720px) {
+
+    .containerForMainImage{
+        background-image: url("/images/750x1334-iphone-6-beer-background.jpg");
+        background-size:     cover;                       
+        background-repeat:   repeat-x;
+        background-position: center ;  
+        padding-top: 0.1em; 
+    }
+    body {
+        background-color: lightgreen;
+    }
+    
+}
+
+
+
+/* For width 400px and larger: */
+@media only screen and (min-width: 750px) {
+    .containerForMainImage { 
+       background-image: url("/images/Beer-Background-Main.jpg"); 
+    }
+    body {
+        background-color: brown;
     }
 }
