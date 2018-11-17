@@ -145,9 +145,9 @@ body {
 } */
 
 
-@media screen and (max-width: 750px) {
+/* @media screen and (max-width: 750px) {
 
-    .card-body center .absolute-bottom{
+    .card-body{
         -ms-flex: 1 1 auto;
         flex: 1 1 auto;
         padding: 5.25rem;
@@ -168,12 +168,12 @@ body {
     
     .imageSwitch{
         background-image: URL("images/750x1334-iphone-6-beer-background.jpg");
-        /* background-size:     cover;                       
+        background-size:     cover;                       
         background-repeat:   repeat-x;
-        background-position: center ;   */
+        background-position: center ;   
         padding-top: 0.1em;  
     }
     body {
         background-color: lightgreen;
     }
-}
+} */
