@@ -4,7 +4,7 @@ body {
     background-color:rgb(241, 240, 240);
 }
 
-#containerForMainImage {
+.containerForMainImage {
     background-image: URL("/images/Beer-Background-Main.jpg");
     background-size:     cover;                       
     background-repeat:   repeat-x;
@@ -14,20 +14,38 @@ body {
 
 .card {
     margin: 20px auto;
-    padding: 20px;
+    padding-top: 50px;
+    padding: 20px; 
     box-shadow: 0 0 20px rgb(200,200,200);
     height: 85vh;
     width: 480px;
     max-width: 90%;
     border-radius: 10px;
     position: relative;
-    background-color: darkgray;
+    background-color: transparent;
+    /* background-color: darkgray; */
     font-family: 'Alegreya Sans SC', sans-serif;
+    /* opacity:0.85; */
+}
+.card:after {
+    content:'';
+    width:100%;
+    height:100%;
+    background-color: darkgray;
+    /* background:url('http://www.dummyimage.com/300x300/000/fff&text=parent+image'); */
+    position:absolute;
+    top:0;
+    left:0;
+    opacity: 0.85;
+}
+.card * {
+    z-index: 1; 
 }
 
 .beer-image {
     width: auto;
-    max-height: 20%;
+    max-width: 100%;
+    max-height: 40%;
     margin: 0 auto;
 }
 
@@ -58,6 +76,9 @@ body {
     color: white;
     border-radius: 10px 10px 0 0;
     font-family: 'Alegreya Sans SC', sans-serif;
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 #page-down-arrow {
@@ -148,36 +169,59 @@ body {
     align-self: center;
 } */
 
+@media screen and (max-width: 749px) {
 
-@media screen and (max-width: 750px) {
-
-    .card-body center .absolute-bottom{
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        padding: 5.25rem;
-        bottom: 1;
-    }
-    
-    .card {
-        margin: 20px auto;
-        padding: 20px;
-        box-shadow: 0 0 20px rgb(200,200,200);
-        height: 165vh;
-        width: 480px;
-        max-width: 90%;
-        border-radius: 10px;
-        position: relative;
-    }
-    
-    
-    .imageSwitch{
-        background-image: URL("images/750x1334-iphone-6-beer-background.jpg");
-        /* background-size:     cover;                       
+    .containerForMainImage{
+        background-image: url("/images/750x1334-iphone-6-beer-background.jpg");
+        background-size:     cover;                       
         background-repeat:   repeat-x;
-        background-position: center ;   */
-        padding-top: 0.1em;  
+        background-position: center ;  
+        padding-top: 0.1em; 
     }
     body {
         background-color: lightgreen;
+    }
+    
+}
+
+@media screen and (min-width: 450px) {
+
+    .containerForMainImage{
+        background-image: url("/images/750x1334-iphone-6-beer-background.jpg");
+        background-size:     cover;                       
+        background-repeat:   repeat-x;
+        background-position: center ;  
+        padding-top: 0.1em; 
+    }
+    body {
+        background-color: lightgreen;
+    }
+    
+}
+
+@media screen and (max-width: 449px) {
+
+    .containerForMainImage{
+        background-image: url("/images/720x1280-samsung-lg-beer-background.jpg");
+        background-size:     cover;                       
+        background-repeat:   repeat-x;
+        background-position: center ;  
+        padding-top: 0.1em; 
+    }
+    body {
+        background-color: orange;
+    }
+    
+}
+
+
+
+/* For width 400px and larger: */
+@media only screen and (min-width: 750px) {
+    .containerForMainImage { 
+       background-image: url("/images/Beer-Background-Main.jpg"); 
+    }
+    body {
+        background-color: brown;
     }
 }
