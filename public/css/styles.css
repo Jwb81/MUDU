@@ -14,7 +14,8 @@ body {
 
 .card {
     margin: 20px auto;
-    padding: 20px;
+    padding-top: 50px;
+    padding: 20px; 
     box-shadow: 0 0 20px rgb(200,200,200);
     height: 85vh;
     width: 480px;
@@ -23,6 +24,7 @@ body {
     position: relative;
     background-color: darkgray;
     font-family: 'Alegreya Sans SC', sans-serif;
+    opacity:0.85;
 }
 
 .beer-image {
@@ -58,6 +60,9 @@ body {
     color: white;
     border-radius: 10px 10px 0 0;
     font-family: 'Alegreya Sans SC', sans-serif;
+    padding-top: 200px;
+    padding-left: 15px,
+    padding-right 15px;
 }
 
 #page-down-arrow {

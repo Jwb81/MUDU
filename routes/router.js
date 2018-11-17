@@ -3,6 +3,8 @@ const request = require('request');
 const router = express.Router();
 var connection = require("../config/connection.js");
 const orm = require('../config/orm');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * 1. make a request to get the number of pages
@@ -12,58 +14,104 @@ const orm = require('../config/orm');
 const breweryDbURL = 'https://sandbox-api.brewerydb.com/v2/beers?key=d00fe48488b9bc5528a4f5aab7f5c4ed&withBreweries=Y';
 let allBeers = [];
 
-const sleep = (ms) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(resolve, ms);
-    })
+// read in all beer objects from file
+const filename = path.join(__dirname, '..', 'public', 'allBeers.js');
+fs.readFile(filename, (err, data) => {
+    if (err) throw err;
+
+    allBeers = randomizeArray(JSON.parse(data));
+    console.log(`First: ${allBeers[0].name}`)
+    console.log(`Length: ${allBeers.length}`)
+})
+
+// randomize the array so it's not in alphabetical order
+const randomizeArray = (beers) => {
+
+    let ctr = beers.length;
+    let temp;
+    let index;
+
+    // While there are elements in the array
+    while (ctr > 0) {
+        // Pick a random index
+        index = Math.floor(Math.random() * ctr);
+        // Decrease ctr by 1
+        ctr--;
+        // And swap the last element with it
+        temp = beers[ctr];
+        beers[ctr] = beers[index];
+        beers[index] = temp;
+    }
+    return beers;
 }
-const getBeersFromAPI = new Promise((resolve, reject) => {
-    request(breweryDbURL, (err, response, body) => {
-        if (err) {
-            return reject(err);
-        }
-        body = JSON.parse(body);
-        let pages = body.numberOfPages;
-        // console.log(pages);
 
-        let promiseArray = [];
 
-        // for (let i = 1; i <= pages; i++) {
-        for (let i = 1; i <= 10; i++) {
-            if (pages % 10 === 0) {
-                // sleep(1100);
-            } 
-            promiseArray = promiseArray.concat(new Promise((resolve, reject) => {
-                request(`${breweryDbURL}&p=${i}`, (err, response, body) => {
-                    // console.log(i);
-                    if (err) {
-                        return reject(err);
-                    }
-                    body = JSON.parse(body);
-                    if (i === 1) {
-                    }
-                    // console.log(body.data)
-                    resolve(body.data);
-                })
-            }))
-        }
 
-        Promise.all(promiseArray).then(values => {
-            // console.log(values);
-            for (let i = 0; i < values.length; i++) {
-                allBeers = allBeers.concat(values[i]);
-            }
-            resolve(allBeers);
-            // console.log(allBeers.length);
-        })
-    })
-})
-.then(result => {
-    console.log(result.length);
-}) 
-.catch(err => {
-    console.log(err);
-})
+// const getBeersFromAPI = new Promise((resolve, reject) => {
+//         request(breweryDbURL, (err, response, body) => {
+//             if (err) {
+//                 return reject(err);
+//             }
+//             body = JSON.parse(body);
+//             let pages = body.numberOfPages;
+//             // console.log(pages);
+
+//             let promiseArray = [];
+
+//             // for (let i = 1; i <= pages; i++) {
+//             for (let i = 21; i <= 23; i++) {
+
+//                 promiseArray = promiseArray.concat(new Promise((resolve, reject) => {
+//                     request(`${breweryDbURL}&p=${i}`, (err, response, body) => {
+//                         // console.log(i);
+//                         if (err) {
+//                             return reject(err);
+//                         }
+//                         body = JSON.parse(body);
+//                         if (i === 1) {}
+//                         // console.log(body.data)
+//                         resolve(body.data);
+//                     })
+//                 }))
+//             }
+
+//             Promise.all(promiseArray).then(values => {
+//                 // console.log(values);
+//                 let tempBeerArr = [];
+//                 for (let i = 0; i < values.length; i++) {
+//                     tempBeerArr = tempBeerArr.concat(values[i]);
+//                 }
+
+//                 // read in beer array from file
+//                 const filename = path.join(__dirname, '..', 'public', 'allBeers.js');
+//                 fs.readFile(filename, 'utf8', (err, data) => {
+
+//                     allBeers = JSON.parse(data);
+//                     console.log('length: ' + Object.keys(allBeers).length)
+
+//                     // append new beers
+//                     allBeers = allBeers.concat(tempBeerArr);
+
+//                     // write beers out
+//                     fs.writeFile(__dirname + '/../public/allBeers.js', JSON.stringify(allBeers), err => {
+//                         if (err) throw err;
+//                         console.log('write success');
+//                     });
+//                 })
+
+
+
+//                 resolve(allBeers);
+//                 // console.log(allBeers.length);
+//             })
+//         })
+//     })
+//     .then(result => {
+//         console.log(result.length);
+//     })
+//     .catch(err => {
+//         console.log(err);
+//     })
 
 
 
@@ -108,8 +156,8 @@ router.get('/matched-beers/:username', (req, res) => {
             // go through each match and get the full obj
             const fullMatchObjArr = matches.map(match => {
                 // search for the full object in allBeers
-                return allBeers.find(function(obj) { 
-                    return obj.id === match.beer_id 
+                return allBeers.find(function (obj) {
+                    return obj.id === match.beer_id
                 });
             })
             res.json(fullMatchObjArr);
