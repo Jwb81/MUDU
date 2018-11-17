@@ -158,6 +158,9 @@ body {
         background-position: center ;  
         padding-top: 0.1em; 
     }
+    body {
+        background-color: brown;
+    }
     
 }
 
