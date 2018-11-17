@@ -26,18 +26,17 @@ const getUnmatchedBeers = () => {
 const getMatchedBeers = () => {
     const username = 'jay';
     $.ajax({
-        method: 'GET',
-        url: `/matched-beers/${username}`
-    }).then(beers => {
-        console.log(beers);
-        Array.from(beers).forEach(beer => {
-            const newLayer = createAccordionLayer(beer);
-            $('#user-matches').append(newLayer);
+            method: 'GET',
+            url: `/matched-beers/${username}`
+        }).then(beers => {
+            Array.from(beers).forEach(beer => {
+                const newLayer = createAccordionLayer(beer);
+                $('#user-matches').append(newLayer);
+            })
         })
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .catch(err => {
+            console.log(err);
+        })
 }
 
 // create beer cards
@@ -85,7 +84,7 @@ const createBeerCard = (beer) => {
 
     const category = $('<li>')
         .addClass('list-group-item')
-        .text('Category: ' + beer.style.category.name || '');
+        .text('Category: ' + (beer.style ? beer.style.category.name : '-'));
 
     list
         .append(abv)
@@ -150,11 +149,10 @@ const handleBeerSelection = (evt) => {
     })
 
     const allCards = $('.card');
-    $(allCards[0]).remove();                // remove current card
+    $(allCards[0]).remove(); // remove current card
     if (allCards.length > 1) {
-        $(allCards[1]).removeClass('hidden');   // show the next card
-    }
-    else {
+        $(allCards[1]).removeClass('hidden'); // show the next card
+    } else {
         getUnmatchedBeers();
     }
 }
@@ -171,23 +169,29 @@ const toggleInfoPanel = () => {
 const createAccordionLayer = (match) => {
     const button = $('<button>')
         .addClass('accordion')
-        .val(match.name)
+        .text(match.name)
         .click(handleAccordionEvent);
 
     const dropdown = $('<div>')
         .addClass('panel');
-    
+
     const abv = $('<p>')
-        .text(`ABV: ${match.abv || '-'}`);
+        .html(`<strong>ABV</strong>: ${match.abv || '-'}`);
 
     const category = $('<p>')
-        .text(`Category: ${match.style ? match.style.category.name : '-'}`);
+        .html(`<strong>Category:</strong> ${match.style ? match.style.category.name : '-'}`);
 
     const description = $('<p>')
-        .text(match.description);
+        .text(match.description ? match.description : 'Description unavailable...');
 
     const brewery = $('<p>')
-        .text(`Brewery: ${match.breweries ? match.breweries[0].name : '-'}`);
+        .html(`<strong>Brewery</strong>: ${match.breweries ? match.breweries[0].name : '-'}`);
+
+    const removeButton = $('<button>')
+        .addClass('btn btn-danger')
+        .data('beer-id', match.id)
+        .text(`I don't like this anymore`)
+        .click(handleRemoveMatch);
 
     // append each layer
     $(dropdown)
@@ -195,6 +199,7 @@ const createAccordionLayer = (match) => {
         .append(category)
         .append(brewery)
         .append(description)
+        .append(removeButton)
 
     return $('<div>')
         .append(button)
@@ -202,35 +207,58 @@ const createAccordionLayer = (match) => {
 }
 
 
+const handleRemoveMatch = (evt) => {
+    const beerID = $(evt.currentTarget).data('beer-id');
+    const username = 'jay';
+
+    $.ajax({
+        method: 'PUT',
+        url: '/beer-match',
+        data: {
+            username,
+            beer_id: beerID,
+            match: false
+        }
+    }).then(result => {
+        // remove this button and the panel from the page
+        evt.currentTarget.parentElement.previousSibling.remove();
+        evt.currentTarget.parentElement.remove();
+    })
+}
+
+
 const handleAccordionEvent = (evt) => {
     // get this layer
     const thisLayer = $(evt.currentTarget)[0];
 
-    // close all other layers 
+    // hide all panels
     const allPanels = Array.from($('.panel'));
-    allPanels.forEach(currentPanel => {
-        currentPanel.style.display = 'none';
+    allPanels.forEach(pan => {
+        pan.style.display = 'none';
     })
-
-    /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        thisLayer.classList.toggle("active-panel");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = thisLayer.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
+    // show the active panel
+    var panel = thisLayer.nextElementSibling;
+     if (panel.style.display === "block") {
+         panel.style.display = "none";
+     } else {
+         panel.style.display = "block";
+     }
+    
+    //  de-activate all buttons
+    const allButtons = Array.from($('.accordion'));
+    allButtons.forEach(button => {
+        button.classList.remove('active-panel');
+    })
+    // change the color on the active button
+    thisLayer.classList.toggle('active-panel');
 }
 
 // ACCORDION HANDLERS
 var acc = document.getElementsByClassName("accordion");
 for (let i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", handleAccordionEvent) 
-    
-} 
+    acc[i].addEventListener("click", handleAccordionEvent)
+
+}
 
 
 

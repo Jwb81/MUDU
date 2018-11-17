@@ -100,15 +100,19 @@ router.get('/unmatched-beers/:username', (req, res) => {
 
 router.get('/matched-beers/:username', (req, res) => {
     const username = req.params.username;
-
     orm.getBeerMatches(username)
         .then(results => {
             // filter only true matches
-            // results = results.data;
-            const matches = results.data
-                .filter(x => x.matched)
-                
-            res.json(matches);
+            const matches = results.data.filter(x => x.matched)
+
+            // go through each match and get the full obj
+            const fullMatchObjArr = matches.map(match => {
+                // search for the full object in allBeers
+                return allBeers.find(function(obj) { 
+                    return obj.id === match.beer_id 
+                });
+            })
+            res.json(fullMatchObjArr);
         })
         .catch(err => {
             res.send(err);
@@ -129,7 +133,7 @@ router.put('/beer-match', (req, res) => {
     const beerId = req.body.beer_id;
     const match = req.body.match;
 
-    orm.updateMatch(username, beerId, match)
+    orm.updateBeerMatch(username, beerId, match)
         .then(response => {
             res.sendStatus(200);
         })

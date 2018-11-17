@@ -59,7 +59,7 @@ body {
     min-height: 100vh;
     max-width: 90%;
     margin: 0 auto;
-    background-color: gray;
+    /* background-color: gray; */
     /* text-align: center; */
 }
 
@@ -81,6 +81,7 @@ body {
     border: none;
     outline: none;
     transition: 0.4s;
+    border-bottom: 1px solid gray;
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -94,6 +95,7 @@ body {
     background-color: white;
     display: none;
     overflow: hidden;
+    background-color: rgb(230,230,255);
 } 
 
 
