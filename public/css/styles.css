@@ -2,6 +2,7 @@ body {
     box-sizing: border-box;
     scroll-behavior: smooth;
     background-color:rgb(241, 240, 240);
+    text-align: center;
 }
 
 .containerForMainImage {
@@ -222,6 +223,6 @@ body {
        background-image: url("/images/Beer-Background-Main.jpg"); 
     }
     body {
-        background-color: brown;
+        background-color: rgb(243, 237, 237);
     }
 }

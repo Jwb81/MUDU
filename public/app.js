@@ -1,14 +1,4 @@
 
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCvEGXGijfSUo6m-2s0GKS09ydr_Iz3BUA",
-    authDomain: "beer-tinder.firebaseapp.com",
-    databaseURL: "https://beer-tinder.firebaseio.com",
-    projectId: "beer-tinder",
-    storageBucket: "beer-tinder.appspot.com",
-    messagingSenderId: "438524528610"
-  };
-  firebase.initializeApp(config);
 
 
   const textEmail = document.getElementById('txtEmail');
@@ -24,6 +14,9 @@
 
     const promise = auth.createUserWithEmailAndPassword(email, pass);
     
+
+
+    
     promise.catch(e => console.log(e.message));
 
 
@@ -36,4 +29,3 @@
       console.log('not logged in')
     }
   });
-  
