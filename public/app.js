@@ -56,4 +56,5 @@
     }
   });
 
-  
+console.log(firebase.UserInfo())
+
