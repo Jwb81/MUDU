@@ -28,8 +28,9 @@ Beer Tinder walkthrough goes here, with a detailed explanation of user experienc
 
 
 ### Link to Video Walkthrough of M.U.D.U Site
-http://fuchsia-beer-tinder.herokuapp.com/
+
+(Video walkthrough link will go here)
   
 ### Link to Deployed M.U.D.U site on Heroku
 
-(Link for Beer Tinder will go here)
+http://fuchsia-beer-tinder.herokuapp.com/
