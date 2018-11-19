@@ -1,7 +1,8 @@
 body {
     box-sizing: border-box;
     scroll-behavior: smooth;
-    background-color:brown;
+    background-color:rgb(241, 240, 240);
+    text-align: center;
 }
 
 .containerForMainImage {
@@ -163,6 +164,10 @@ body {
     max-width: 960px;
 }
 
+.login-card {
+    margin: 100px
+}
+
 /* .container {
     width: 100vh;
     height: 100vh;
@@ -226,6 +231,6 @@ body {
        background-image: url("/images/Beer-Background-Main.jpg"); 
     }
     body {
-        background-color: brown;
+        background-color: rgb(243, 237, 237);
     }
 }

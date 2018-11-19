@@ -115,11 +115,15 @@ const randomizeArray = (beers) => {
 
 
 
-router.get('/', (req, res) => {
-    res.sendFile('./index.html');
-    // res.json({
-    //     success: true
-    // })
+// router.get('/', (req, res) => {
+//     res.sendFile('./index.html');
+//     // res.json({
+//     //     success: true
+//     // })
+// })
+
+router.get('/', (req,res) => {
+    res.sendFile('./main.html');
 })
 
 router.get('/drinking-buddies/:username', (req, res) => {
