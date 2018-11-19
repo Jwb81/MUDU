@@ -8,9 +8,10 @@
     messagingSenderId: "438524528610"
   };
   firebase.initializeApp(config);
-  
-  const textEmail = document.getElementById('txtEmail');
-  const textPassword = document.getElementById('txtPassword');
+
+  const txtUsername = document.getElementById('txtUsername');
+  const txtEmail = document.getElementById('txtEmail');
+  const txtPassword = document.getElementById('txtPassword');
   const btnLogin = document.getElementById('btnLogin');
   const btnSignUp = document.getElementById('btnSignUp');
   const btnSingOut = document.getElementById('btnSignOut');
@@ -18,27 +19,52 @@
 
   // Login Event
   btnLogin.addEventListener('click', e => {
+    // clear errors from before
+    txtEmail.classList.remove('red-border');
+    txtPassword.classList.remove('red-border');
 
     const email = txtEmail.value;
-    const pass = textPassword.value;
+    const pass = txtPassword.value;
     const auth = firebase.auth();
 
+    if (!email) {
+      txtEmail.classList.add('red-border');
+    }
+    if (!password) {
+      txtPassword.classList.add('red-border');
+    }
+
     const promise = auth.signInWithEmailAndPassword(email, pass);
-    
+
     promise.catch(e => console.log(e.message));
-    
+
   });
 
 
-//Sign Up Event
+  //Sign Up Event
   btnSignUp.addEventListener('click', e => {
+    // clear errors from before
+    txtUsername.classList.remove('red-border');
+    txtEmail.classList.remove('red-border');
+    txtPassword.classList.remove('red-border');
 
+    const username = txtUsername.value;
     const email = txtEmail.value;
-    const pass = textPassword.value;
+    const pass = txtPassword.value;
     const auth = firebase.auth();
 
+    if (!username) {
+      txtUsername.classList.add('red-border');
+    }
+    if (!email) {
+      txtEmail.classList.add('red-border');
+    }
+    if (!password) {
+      txtPassword.classList.add('red-border');
+    }
+
     const promise = auth.createUserWithEmailAndPassword(email, pass);
-    
+
     promise.catch(e => console.log(e.message));
   });
 
@@ -56,5 +82,4 @@
     }
   });
 
-console.log(firebase.UserInfo())
-
+  // console.log(firebase.UserInfo())

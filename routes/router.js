@@ -115,11 +115,12 @@ const randomizeArray = (beers) => {
 
 
 
-router.get('/', (req, res) => {
-    res.sendFile('./index.html');
-})
+// router.get('/', (req, res) => {
+//     res.sendFile('./index.html');
+// })
 
 router.get('/', (req,res) => {
+    console.log('hello');
     res.sendFile(path.join(__dirname, '..', 'main.html'));
 })
 

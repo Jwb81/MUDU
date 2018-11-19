@@ -33,8 +33,8 @@ body {
     width:100%;
     height:100%;
     background-color: darkgray;
-    /* background:url('http://www.dummyimage.com/300x300/000/fff&text=parent+image'); */
     position:absolute;
+    border-radius: 10px;
     top:0;
     left:0;
     opacity: 0.85;
@@ -143,6 +143,34 @@ body {
 
 
 
+/* LOGIN PAGE */
+.login-input {
+    display: block;
+    margin: 10px auto;
+}
+
+.login-card {
+    max-width: 500px;
+    background-color: rgba(50,50, 70,0.95);
+    margin: 0 auto;
+    /* justify-self: center; */
+    align-self: center;
+}
+
+#login-container {
+    display: flex;
+    /* flex: 1; */
+    min-height: 100vh;
+    align-items: center;
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    /* align-content: center; */
+}
+
+
+
+
+
 /* one style classes */
 .center {
     text-align: center;
@@ -164,9 +192,7 @@ body {
     max-width: 960px;
 }
 
-.login-card {
-    margin: 100px
-}
+
 
 /* .container {
     width: 100vh;
