@@ -85,14 +85,11 @@ const orm = {
                 let buddiesFullInfo = [];
                 let fullInfoPromiseArr = [];
                 for (let i = 0; i < buddyArr.length; i++) {
-                    console.log(`i: ${i}`)
                     fullInfoPromiseArr = fullInfoPromiseArr.concat(orm.getUserInfo(buddyArr[i].username))
                 }
 
-                console.log(buddiesFullInfo);
                 Promise.all(fullInfoPromiseArr).then(values => {
                     values.forEach(val => {
-                        console.log(`for each`)
                         buddiesFullInfo = buddiesFullInfo.concat(val);
                     })
                     resolve({
@@ -179,10 +176,6 @@ const orm = {
                         for (let i = 0; i < buddyMatchesArr.length; i++) { // iterate through buddy's matches
                             for (let j = 0; j < beerMatches.length; j++) { // iterate through this user's matches
                                 if (buddyMatchesArr[i].beer_id === beerMatches[j].beer_id) {
-                                    console.log('----------------------------')
-                                    console.log(`buddy: ${user.username} ${buddyMatchesArr[i].beer_id}`)
-                                    console.log(`me: ${username} ${beerMatches[j].beer_id}`)
-                                    console.log('----------------------------')
                                     return true; // return true so this user stays a potential new buddy
                                 }
                             }
