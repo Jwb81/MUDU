@@ -100,7 +100,8 @@ body {
     /* text-align: center; */
 }
 
-#beer-matches {
+#beer-matches,
+#buddy-matches  {
     width: 90%;
     margin: 0 auto;
 }

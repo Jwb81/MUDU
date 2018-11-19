@@ -100,17 +100,44 @@ const orm = {
                     return reject(err);
                 })
 
+            // const get user's matched drinks
+            const beerMatchesPromise = orm.getBeerMatches(username)
+                .catch(err => {
+                    return reject(err);
+                })
+
             
             // wait for the above promises to finish
-            Promise.all([drinkingBuddiesPromise, allUsersPromise]).then(values => {
+            Promise.all([drinkingBuddiesPromise, allUsersPromise, beerMatchesPromise]).then(values => {
                 const currentDrinkingBuddies = values[0].drinking_buddies; // get all drinking buddies already in the database
                 const userArr = values[1].data; // holds all users in the database
+                const beerMatches = values[2].data;
 
                 // make sure users have at least one common drink with the user
-                
+                let newBuddies = userArr.filter(async user => {
+                    // get potential buddy's drink match list
+                    await orm.getBeerMatches(user.username)
+                        .then(matches => {
+                            let found = false;
+                            for (let i = 0; i < matches.length; i++) {
+                                for (let j = 0; j < beerMatches.length; j++) {
+                                    if (matches[i].beer_id === beerMatches[j].beer_id) {
+                                        return true; // return true so this use stays a potential new buddy
+                                    }
+                                }
+                            }
+                            return false;
+                        })
+                })
+
+                console.log(newBuddies.length);
+                if (!newBuddies.length) {
+                    console.log('no new buddies found');
+                    return reject('no new buddies found');
+                }
 
                 // get only users not already matched with the selected user
-                let newBuddies = userArr.filter(user => {
+                newBuddies = userArr.filter(user => {
                     // make sure its not the selected user
                     if (user.username === username) {
                         return false;
