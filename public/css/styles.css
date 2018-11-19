@@ -160,6 +160,10 @@ body {
     max-width: 960px;
 }
 
+.login-card {
+    margin: 25px
+}
+
 /* .container {
     width: 100vh;
     height: 100vh;

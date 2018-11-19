@@ -122,6 +122,10 @@ router.get('/', (req, res) => {
     // })
 })
 
+router.get('/', (req,res) => {
+    res.sendFile('./main.html');
+})
+
 router.get('/all-drinking-buddies/:username', (req, res) => {
     const username = req.params.username;
 
