@@ -22,9 +22,17 @@ Beer Tinder walkthrough goes here, with a detailed explanation of user experienc
 
 ## Screenshots of Site
 
-## Example of M.U.D.U Home Page 
+# Example of M.U.D.U Home Page (Top) 
 
-![Example of Home Screen for Beer Tinder Site](put file pathway for screenshot)
+![Example of Home Screen for M.U.D.U Site](/public/images/home-screen-top.png)
+
+# Example of M.U.D.U Home Page (Middle) 
+
+![Example of Home Screen for M.U.D.U Site](/public/images/home-screen-middle.png)
+
+# Example of M.U.D.U Home Page (Bottom)
+
+![Example of Home Screen for M.U.D.U Site](/public/images/home-screen-bottom.png)
 
 
 ### Link to Video Walkthrough of M.U.D.U Site
