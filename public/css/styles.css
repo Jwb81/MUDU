@@ -81,6 +81,28 @@ body {
     padding-right: 15px;
 }
 
+.jumbotron {
+    background-color: lightgray;
+    font-family: 'IM Fell DW Pica SC', serif;
+    
+}
+
+.display-4 {
+    font-size: 58px;
+    font-display: bold;
+}
+
+.lead {
+    font-size: 38px;
+}
+
+.logo {
+    float: left;
+    padding-left: 25px;
+    padding-right: 30px;
+}
+
+
 #page-down-arrow {
     max-height: 50px;
     
