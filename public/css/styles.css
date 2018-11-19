@@ -208,6 +208,10 @@ body {
         background-position: center ;  
         padding-top: 0.1em; 
     }
+    .card:after{
+        padding-top:27em;
+    }
+    
     body {
         background-color: orange;
     }
