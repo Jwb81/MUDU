@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('request');
 const router = express.Router();
-var connection = require("../config/connection.js");
+// var connection = require("../config/connection.js");
 const orm = require('../config/orm');
 const fs = require('fs');
 const path = require('path');
@@ -115,13 +115,9 @@ const randomizeArray = (beers) => {
 
 
 
-// router.get('/', (req, res) => {
-//     res.sendFile('./index.html');
-// })
-
 router.get('/', (req,res) => {
-    console.log('hello');
-    res.sendFile(path.join(__dirname, '..', 'main.html'));
+    const url = path.join(__dirname, '..', 'public', 'login.html');
+    res.sendFile(url);
 })
 
 router.get('/drinking-buddies/:username', (req, res) => {
