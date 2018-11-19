@@ -122,8 +122,12 @@ router.get('/', (req, res) => {
     // })
 })
 
-router.get('/all-drinking-buddies/:username', (req, res) => {
+router.get('/drinking-buddies/:username', (req, res) => {
     const username = req.params.username;
+
+    if (!username) {
+        return res.send('no username given');
+    }
 
     orm.getDrinkingBuddies(username)
         .then(response => {

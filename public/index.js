@@ -20,7 +20,7 @@ const getUnmatchedBeers = () => {
                 .append(newCard);
 
         })
- 
+
     })
 };
 
@@ -42,6 +42,23 @@ const getMatchedBeers = () => {
         .catch(err => {
             console.log(err);
         })
+}
+
+// get drinking buddies for this user
+const getDrinkingBuddies = () => {
+    const username = 'jay';
+
+    $.ajax({
+        method: 'GET',
+        url: `/drinking-buddies/${username}`
+    }).then(result => {
+        console.log(result.data);
+        result.data.forEach(buddy => {
+            const newBuddyLayer = createBuddyLayer(buddy);
+
+            $('#buddy-matches').append(newBuddyLayer);
+        })
+    })
 }
 
 // create beer cards
@@ -213,6 +230,40 @@ const createAccordionLayer = (match) => {
 }
 
 
+// create new card for matched buddies
+const createBuddyLayer = buddy => {
+    const button = $('<button>')
+        .addClass('accordion')
+        .text(`${buddy.first_name} ${buddy.last_name}`)
+        .click(handleAccordionEvent);
+
+    const dropdown = $('<div>')
+        .addClass('panel');
+
+    const username = $('<p>')
+        .html(`<strong>Username:</strong> ${buddy.username || '-'}`);
+
+    const age = $('<p>')
+        .html(`<strong>AGE</strong>: ${buddy.age || '-'}`);
+
+    const chatButton = $('<button>')
+        .addClass('btn btn-info')
+        .data('buddy-username', buddy.username)
+        .text(`Chat with them!`)
+        .click(handleChatEvent);
+
+    // append each layer
+    $(dropdown)
+        .append(age)
+        .append(username)
+        .append(chatButton)
+
+    return $('<div>')
+        .append(button)
+        .append(dropdown);
+}
+
+
 const handleRemoveMatch = (evt) => {
     const beerID = $(evt.currentTarget).data('beer-id');
     const username = 'jay';
@@ -266,9 +317,16 @@ for (let i = 0; i < acc.length; i++) {
 
 }
 
+const handleChatEvent = evt => {
+    const thisButton = evt.currentTarget;
+    const thisUsername = 'jay';
+    const buddyUsername = $(thisButton).data('buddy-username');
+
+    console.log(`${thisUsername} wants to chat with ${buddyUsername}`);
+}
 
 // user account button event handlers
-$('#toggle-beer-matches').click( evt => {
+$('#toggle-beer-matches').click(evt => {
     const thisBtn = evt.currentTarget;
 
     // check if this button is already toggled on
@@ -293,7 +351,7 @@ $('#toggle-beer-matches').click( evt => {
     $('#buddy-matches').addClass('hidden');
 })
 
-$('#toggle-buddy-matches').click( evt => {
+$('#toggle-buddy-matches').click(evt => {
     const thisBtn = evt.currentTarget;
 
     // check if this button is already toggled on
@@ -317,8 +375,22 @@ $('#toggle-buddy-matches').click( evt => {
     $('#beer-matches').addClass('hidden');
 })
 
+$('#calculate-buddies').click(evt => {
+    const username = 'jay';
+    $.ajax({
+        method: 'PUT',
+        url: '/drinking-buddies',
+        data: {
+            username
+        }
+    }).then(result => {
+        console.log(result);
+    })
+})
+
 
 
 // STARTUP FUNCTIONS
 getUnmatchedBeers();
 getMatchedBeers();
+getDrinkingBuddies();

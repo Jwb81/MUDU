@@ -58,7 +58,7 @@ const orm = {
         return new Promise((resolve, reject) => {
             const query = 'SELECT * FROM drinking_buddies WHERE username1 = ? OR username2 = ?';
 
-            conn.query(query, [username, username], (err, drinkingBuddies) => {
+            conn.query(query, [username, username], (err, data) => {
                 if (err) {
                     console.log(err);
                     return reject({
@@ -69,12 +69,62 @@ const orm = {
                     });
                 }
 
-                resolve({
-                    success: true,
-                    drinking_buddies: drinkingBuddies
+                let buddyArr = data.map(bud => {
+                    if (bud.username1 === username) {
+                        return {
+                            username: bud.username2
+                        }
+                    }
+                    if (bud.username2 === username) {
+                        return {
+                            username: bud.username1
+                        }
+                    }
                 });
+
+                let buddiesFullInfo = [];
+                let fullInfoPromiseArr = [];
+                for (let i = 0; i < buddyArr.length; i++) {
+                    console.log(`i: ${i}`)
+                    fullInfoPromiseArr = fullInfoPromiseArr.concat(orm.getUserInfo(buddyArr[i].username))
+                }
+
+                console.log(buddiesFullInfo);
+                Promise.all(fullInfoPromiseArr).then(values => {
+                    values.forEach(val => {
+                        console.log(`for each`)
+                        buddiesFullInfo = buddiesFullInfo.concat(val);
+                    })
+                    resolve({
+                        success: true,
+                        data: buddiesFullInfo
+                    });
+                })
+
+
             });
         })
+    },
+
+    getUserInfo: username => {
+        return new Promise((resolve, reject) => {
+            // get potential buddy's drink match list
+            orm.findUser(username)
+                .then(buddyInfo => {
+                    const info = buddyInfo.user;
+                    return resolve({
+                        username: info.username,
+                        first_name: info.first_name,
+                        last_name: info.last_name,
+                        age: info.age,
+                        email_address: info.email_address
+                    })
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+
     },
 
     setDrinkingBuddies: (username) => {
@@ -106,92 +156,124 @@ const orm = {
                     return reject(err);
                 })
 
-            
+
             // wait for the above promises to finish
             Promise.all([drinkingBuddiesPromise, allUsersPromise, beerMatchesPromise]).then(values => {
-                const currentDrinkingBuddies = values[0].drinking_buddies; // get all drinking buddies already in the database
+                const currentDrinkingBuddies = values[0].data; // get all drinking buddies already in the database
                 const userArr = values[1].data; // holds all users in the database
                 const beerMatches = values[2].data;
 
-                // make sure users have at least one common drink with the user
-                let newBuddies = userArr.filter(async user => {
-                    // get potential buddy's drink match list
-                    await orm.getBeerMatches(user.username)
-                        .then(matches => {
-                            let found = false;
-                            for (let i = 0; i < matches.length; i++) {
-                                for (let j = 0; j < beerMatches.length; j++) {
-                                    if (matches[i].beer_id === beerMatches[j].beer_id) {
-                                        return true; // return true so this use stays a potential new buddy
-                                    }
+                let userMatchesPromiseArr = [];
+                userArr.forEach(user => {
+                    userMatchesPromiseArr = userMatchesPromiseArr.concat(orm.getBeerMatches(user.username))
+                })
+
+                Promise.all(userMatchesPromiseArr).then(values => {
+                    let newBuddies = userArr.filter((user, idx) => {
+                        if (user.username === username) {
+                            return false;   // filter the user out so he's not compared to itself
+                        }
+
+                        let found = false;
+                        const buddyMatchesArr = values[idx].data;
+                        for (let i = 0; i < buddyMatchesArr.length; i++) { // iterate through buddy's matches
+                            for (let j = 0; j < beerMatches.length; j++) { // iterate through this user's matches
+                                if (buddyMatchesArr[i].beer_id === beerMatches[j].beer_id) {
+                                    console.log('----------------------------')
+                                    console.log(`buddy: ${user.username} ${buddyMatchesArr[i].beer_id}`)
+                                    console.log(`me: ${username} ${beerMatches[j].beer_id}`)
+                                    console.log('----------------------------')
+                                    return true; // return true so this user stays a potential new buddy
                                 }
                             }
+                        }
+                        return false;
+                    })
+
+                    if (!newBuddies || !newBuddies.length) {
+                        console.log('no new buddies found');
+                        return reject('no new buddies found');
+                    }
+
+                    // get only users not already matched with the selected user
+                    // newBuddies = userArr.filter(user => {
+                    newBuddies = newBuddies.filter(user => {
+                        // make sure its not the selected user
+                        // if (user.username === username) {
+                        //     return false;
+                        // }
+
+                        // only return it if it nots currently in the database
+                        const found = currentDrinkingBuddies.filter(x => {
+                            if (x.username1 === user.username || x.username2 === user.username) {
+                                return true; // return true so 'found' is true
+                            }
                             return false;
-                        })
-                })
+                        }).length;
 
-                console.log(newBuddies.length);
-                if (!newBuddies.length) {
-                    console.log('no new buddies found');
-                    return reject('no new buddies found');
-                }
-
-                // get only users not already matched with the selected user
-                newBuddies = userArr.filter(user => {
-                    // make sure its not the selected user
-                    if (user.username === username) {
-                        return false;
-                    }
-
-                    // only return it if it nots currently in the database
-                    const found = currentDrinkingBuddies.filter(x => {
-                        if (x.username1 === user.username || x.username2 === user.username) {
-                            return true; // return true so 'found' is true
+                        if (found) {
+                            return false; // if found, it is not a new buddy so do not return it
                         }
-                        return false;
-                    }).length;
-
-                    if (found) {
-                        return false; // if found, it is not a new buddy so do not return it
-                    }
-                    return true;
-
-
-                });
-
-                newBuddies = newBuddies.filter(x => {
-                    // find distance between buds
-                    const distance = 0; // use geolocation here
-
-                    if (distance < maxBuddyDistance) {
                         return true;
-                    }
 
-                    return false;
-                })
 
-                console.log(newBuddies);
-
-                // put the new buddies into the database
-                newBuddies.forEach(x => {
-                    console.log('inserting each new buddy into the database')
-                    const query = 'INSERT INTO drinking_buddies (username1, username2) VALUES (?, ?)';
-
-                    conn.query(query, [username, x.username], (err, data) => {
-                        if (err) {
-                            return reject({
-                                status: 500,
-                                error: err,
-                                success: false,
-                                message: `SQL failed in 'setDrinkingBuddies'`
-                            })
-                        }
                     });
+
+
+                    newBuddies = newBuddies.filter(x => {
+                        // find distance between buds
+                        const distance = 0; // use geolocation here
+
+                        if (distance < maxBuddyDistance) {
+                            return true;
+                        }
+
+                        return false;
+                    })
+
+                    console.log(`New buds:`);
+                    console.log(newBuddies);
+
+                    // put the new buddies into the database
+                    newBuddies.forEach(x => {
+                        const query = 'INSERT INTO drinking_buddies (username1, username2) VALUES (?, ?)';
+
+                        conn.query(query, [username, x.username], (err, data) => {
+                            if (err) {
+                                return reject({
+                                    status: 500,
+                                    error: err,
+                                    success: false,
+                                    message: `SQL failed in 'setDrinkingBuddies'`
+                                })
+                            }
+                        });
+                    })
+
+                    resolve({
+                        success: true
+                    });
+
                 })
 
-                resolve({
-                    success: true
-                });
+                // // make sure users have at least one common drink with the user
+                // let newBuddies = userArr.filter(async user => {
+                //     // get potential buddy's drink match list
+                //     await orm.getBeerMatches(user.username)
+                //         .then(matches => {
+                //             let found = false;
+                //             for (let i = 0; i < matches.length; i++) {
+                //                 for (let j = 0; j < beerMatches.length; j++) {
+                //                     if (matches[i].beer_id === beerMatches[j].beer_id) {
+                //                         return true; // return true so this use stays a potential new buddy
+                //                     }
+                //                 }
+                //             }
+                //             return false;
+                //         })
+                // })
+
+
 
             })
         });
@@ -199,9 +281,9 @@ const orm = {
 
     findUser: (username) => {
         return new Promise((resolve, reject) => {
-            const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
+            const query = 'SELECT * FROM users WHERE username = ?';
 
-            conn.query(query, (err, userArr) => {
+            conn.query(query, [username], (err, userArr) => {
                 if (err) {
                     return reject({
                         status: 500,
