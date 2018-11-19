@@ -42,6 +42,8 @@ body {
     z-index: 1; 
 }
 
+
+
 .beer-image {
     width: auto;
     max-width: 100%;
@@ -98,7 +100,7 @@ body {
     /* text-align: center; */
 }
 
-#user-matches {
+#beer-matches {
     width: 90%;
     margin: 0 auto;
 }
@@ -131,6 +133,7 @@ body {
     display: none;
     overflow: hidden;
     background-color: rgb(230,230,255);
+    margin-bottom: 10px;
 } 
 
 

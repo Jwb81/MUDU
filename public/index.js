@@ -20,6 +20,7 @@ const getUnmatchedBeers = () => {
                 .append(newCard);
 
         })
+ 
     })
 };
 
@@ -35,7 +36,7 @@ const getMatchedBeers = () => {
                 //panel is hidden at start
                 //accoridan shows alls the beers requested that are liked, accordian drops down info and creates the button and the panel that opens
                 const newLayer = createAccordionLayer(beer);
-                $('#user-matches').append(newLayer);
+                $('#beer-matches').append(newLayer);
             })
         })
         .catch(err => {
@@ -71,7 +72,7 @@ const createBeerCard = (beer) => {
     const infoPanel = $('<div>')
         .addClass('hidden info-panel')
         .text(beer.description || 'No description provided...');
-        //if beer description is avalible it takes the beer description, if not return string 
+    //if beer description is avalible it takes the beer description, if not return string 
 
     cardBody
         .append(cardTitle)
@@ -243,12 +244,12 @@ const handleAccordionEvent = (evt) => {
     })
     // show the active panel
     var panel = thisLayer.nextElementSibling;
-     if (panel.style.display === "block") {
-         panel.style.display = "none";
-     } else {
-         panel.style.display = "block";
-     }
-    
+    if (panel.style.display === "block") {
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
+
     //  de-activate all buttons
     const allButtons = Array.from($('.accordion'));
     allButtons.forEach(button => {
@@ -264,6 +265,57 @@ for (let i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", handleAccordionEvent)
 
 }
+
+
+// user account button event handlers
+$('#toggle-beer-matches').click( evt => {
+    const thisBtn = evt.currentTarget;
+
+    // check if this button is already toggled on
+    if ($(thisBtn).hasClass('btn-dark')) {
+        return;
+    }
+
+    // make this button look untoggled
+    $(thisBtn)
+        .addClass('btn-dark')
+        .removeClass('btn-outline-dark')
+
+    // toggle the 'show buddies' button
+    $('#toggle-buddy-matches')
+        .removeClass('btn-dark')
+        .addClass('btn-outline-dark')
+
+    // hide the panel of beer matches
+    $('#beer-matches').removeClass('hidden');
+
+    // show the buddy panel
+    $('#buddy-matches').addClass('hidden');
+})
+
+$('#toggle-buddy-matches').click( evt => {
+    const thisBtn = evt.currentTarget;
+
+    // check if this button is already toggled on
+    if ($(thisBtn).hasClass('btn-dark')) {
+        return;
+    }
+    // make this button look untoggled
+    $(thisBtn)
+        .addClass('btn-dark')
+        .removeClass('btn-outline-dark')
+
+    // toggle the 'show buddies' button
+    $('#toggle-beer-matches')
+        .removeClass('btn-dark')
+        .addClass('btn-outline-dark')
+
+    // hide the panel of beer matches
+    $('#buddy-matches').removeClass('hidden');
+
+    // show the buddy panel
+    $('#beer-matches').addClass('hidden');
+})
 
 
 

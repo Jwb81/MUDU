@@ -4,7 +4,7 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,74 +16,35 @@
 
   <link rel="stylesheet" href='./css/styles.css'>
 
+
   <title>Beer Friends Forever</title>
 </head>
 
 <body>
-<div class="containerForMainImage" >
-  <div style='height: 100vh;'>
-    <!-- where the cards will be shown -->
-    <div id="card-container"></div>
+  <div id='c' class="containerForMainImage">
+    <div style='height: 100vh;'>
+      <!-- where the cards will be shown -->
+      <div id="card-container"></div>
 
-    <!-- button to show user there is more to the page -->
-    <div class='center'>
-      <a href='#user-matches'>
-        <img id='page-down-arrow' src='./images/down_arrow.png' alt="">
-      </a>
+      <!-- button to show user there is more to the page -->
+      <div class='center'>
+        <a href='#user-matches'>
+          <img id='page-down-arrow' src='./images/down_arrow.png' alt="">
+        </a>
+      </div>
     </div>
   </div>
-</div>
 
   <div id="user-matches-container">
     <h2 class='center' style='padding-top: 15px;'><u>Your current matches</u></h2>
-    <div id="user-matches">
-      <!-- <button class="accordion">Section 1</button>
-      <div class="panel">
-        <p>Lorem ipsum...</p>
-      </div>
-
-      <button class="accordion">Section 2</button>
-      <div class="panel">
-        <p>Lorem ipsum...</p>
-      </div>
-
-      <button class="accordion">Section 3</button>
-      <div class="panel">
-        <p>Lorem ipsum...</p>
-      </div> -->
+    <div class='center'>
+      <button id="toggle-beer-matches" class='btn btn-dark'>Show Matches</button>
+      <button id="toggle-buddy-matches" class='btn btn-outline-dark'>Show Buddies</button>
     </div>
+    <div id="beer-matches"></div>
+    <div id="buddy-matches"></div>
   </div>
-  <!-- <div class="container">
-    <h1>Beer Friends Forever</h1>
-    <p>Find friends that share your same passion for beer! But not just and beer,
-      the suds you love to chug.
-    </p>
-    <div class="row">
-      <div class="col-12">
 
-        <div class="card">
-          <img id='card-image' class="card-img-top" src="https://images.freshop.com/00018200001468/f02bd62416fb4c37c6ad4f1997c9ba4a_medium.png"
-            Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">BUSCH</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">ABV: 4.3%</li>
-            <li class="list-group-item">Calories: 113</li>
-            <li class="list-group-item">American Lager</li>
-          </ul>
-          <div class="card-body">
-            <button type="button" class="btn btn-success">Bottoms Up</button>
-            <button type="button" class="btn btn-danger">Pee Water</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </div> end container -->
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -99,7 +60,5 @@
     });
   </script>
   <script src='./index.js'></script>
-
 </body>
-
 </html>

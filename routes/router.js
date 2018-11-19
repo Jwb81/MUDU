@@ -134,6 +134,22 @@ router.get('/all-drinking-buddies/:username', (req, res) => {
         })
 })
 
+router.put('/drinking-buddies', (req, res) => {
+    const username = req.body.username;
+
+    if (!username) {
+        return res.send('no username given');
+    }
+
+    orm.setDrinkingBuddies(username)
+        .then(response => {
+            res.json(response);
+        })
+        .catch(err => {
+
+        })
+})
+
 router.get('/unmatched-beers/:username', (req, res) => {
     const username = req.params.username;
 

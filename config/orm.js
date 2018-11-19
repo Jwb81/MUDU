@@ -60,6 +60,7 @@ const orm = {
 
             conn.query(query, [username, username], (err, drinkingBuddies) => {
                 if (err) {
+                    console.log(err);
                     return reject({
                         status: 500,
                         success: false,
@@ -79,32 +80,37 @@ const orm = {
     setDrinkingBuddies: (username) => {
         // get user's 'beer_matches' where 'matched' === true
         // join that result with the entire 'beer_matches' table on the 'beer_id' column
-            // limit to where 'matched' === true
-            // limit to where 'username' is different
+        // limit to where 'matched' === true
+        // limit to where 'username' is different
         // find unique usernames
         // add usernames to array
         // add all usernames in that array to the user's 'drinking_buddies' table
-        
+
         return new Promise((resolve, reject) => {
-            // get drinking buddies for selected users
-            const drinkingBuddiesPromise = getDrinkingBuddies(username)
+            // get drinking buddies for selected user
+            const drinkingBuddiesPromise = orm.getDrinkingBuddies(username)
                 .catch(err => {
+                    console.log(err);
                     return reject(err);
                 })
 
             // get all users
-            const allUsersPromise = getAllUsers()
+            const allUsersPromise = orm.getAllUsers()
                 .catch(err => {
                     return reject(err);
                 })
 
+            
+            // wait for the above promises to finish
+            Promise.all([drinkingBuddiesPromise, allUsersPromise]).then(values => {
+                const currentDrinkingBuddies = values[0].drinking_buddies; // get all drinking buddies already in the database
+                const userArr = values[1].data; // holds all users in the database
 
-            Promise.all([drinkingBuddiesPromise, allUsersPromise], values => {
-                const currentDrinkingBuddies = values[0];
-                const userArr = values[1];
+                // make sure users have at least one common drink with the user
+                
 
                 // get only users not already matched with the selected user
-                const newBuddies = userArr.filter(user => {
+                let newBuddies = userArr.filter(user => {
                     // make sure its not the selected user
                     if (user.username === username) {
                         return false;
@@ -113,13 +119,13 @@ const orm = {
                     // only return it if it nots currently in the database
                     const found = currentDrinkingBuddies.filter(x => {
                         if (x.username1 === user.username || x.username2 === user.username) {
-                            return true;
+                            return true; // return true so 'found' is true
                         }
                         return false;
                     }).length;
 
                     if (found) {
-                        return false; // if found, it is not a new buddy
+                        return false; // if found, it is not a new buddy so do not return it
                     }
                     return true;
 
@@ -137,8 +143,11 @@ const orm = {
                     return false;
                 })
 
+                console.log(newBuddies);
+
                 // put the new buddies into the database
                 newBuddies.forEach(x => {
+                    console.log('inserting each new buddy into the database')
                     const query = 'INSERT INTO drinking_buddies (username1, username2) VALUES (?, ?)';
 
                     conn.query(query, [username, x.username], (err, data) => {
@@ -153,7 +162,9 @@ const orm = {
                     });
                 })
 
-                resolve();
+                resolve({
+                    success: true
+                });
 
             })
         });
