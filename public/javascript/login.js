@@ -12,9 +12,11 @@
   const txtUsername = document.getElementById('txtUsername');
   const txtEmail = document.getElementById('txtEmail');
   const txtPassword = document.getElementById('txtPassword');
+  const loginError = document.getElementById('login-error');
   const btnLogin = document.getElementById('btnLogin');
   const btnSignUp = document.getElementById('btnSignUp');
   const btnSingOut = document.getElementById('btnSignOut');
+  let user; // holds the current user
 
 
   // Login Event
@@ -29,9 +31,15 @@
 
     if (!email) {
       txtEmail.classList.add('red-border');
+      loginError.innerText = `'Email' cannot be empty.`
+      loginError.classList.remove('hidden');
+      return;
     }
     if (!pass) {
       txtPassword.classList.add('red-border');
+      loginError.innerText = `'Password' cannot be empty.`
+      loginError.classList.remove('hidden');
+      return;
     }
 
     const promise = auth.signInWithEmailAndPassword(email, pass);
@@ -47,6 +55,7 @@
     txtUsername.classList.remove('red-border');
     txtEmail.classList.remove('red-border');
     txtPassword.classList.remove('red-border');
+    loginError.classList.add('hidden');
 
     const username = txtUsername.value;
     const email = txtEmail.value;
@@ -55,17 +64,34 @@
 
     if (!username) {
       txtUsername.classList.add('red-border');
+      loginError.innerText = `'Username' cannot be empty.`
+      loginError.classList.remove('hidden');
+      return;
     }
     if (!email) {
       txtEmail.classList.add('red-border');
+      loginError.innerText = `'Email' cannot be empty.`
+      loginError.classList.remove('hidden');
+      return;
     }
     if (!pass) {
       txtPassword.classList.add('red-border');
+      loginError.innerText = `'Password' cannot be empty.`
+      loginError.classList.remove('hidden');
+      return;
     }
 
-    const promise = auth.createUserWithEmailAndPassword(email, pass);
-
-    promise.catch(e => console.log(e.message));
+    auth.createUserWithEmailAndPassword(email, pass)
+      .then(user => {
+        firebase.auth().currentUser.updateProfile({
+          displayName: username
+        })
+      })
+      .catch(e => {
+        console.log(e.message);
+        loginError.innerText = e.message;
+        loginError.classList.remove('hidden');
+      });
   });
 
   btnLogout.addEventListener('click', e => {
@@ -75,9 +101,11 @@
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
+      user = firebaseUser;
       console.log(firebaseUser);
-      btnLogout.classList.remove('hide')
+      // btnLogout.classList.remove('hide')
     } else {
+      user = null;
       console.log('not logged in')
     }
   });

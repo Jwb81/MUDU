@@ -186,6 +186,10 @@ body {
     border: 1px solid red;
 }
 
+.red-text {
+    color: rgb(255, 100, 100);
+}
+
 .float-right {
     float: right;
 }
