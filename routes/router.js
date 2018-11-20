@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('request');
 const router = express.Router();
-var connection = require("../config/connection.js");
+// var connection = require("../config/connection.js");
 const orm = require('../config/orm');
 const fs = require('fs');
 const path = require('path');
@@ -15,7 +15,7 @@ const breweryDbURL = 'https://sandbox-api.brewerydb.com/v2/beers?key=d00fe48488b
 let allBeers = [];
 
 // read in all beer objects from file
-const filename = path.join(__dirname, '..', 'public', 'allBeers.js');
+const filename = path.join(__dirname, '..', 'public', 'javascript', 'allBeers.js');
 fs.readFile(filename, (err, data) => {
     if (err) throw err;
 
@@ -115,15 +115,14 @@ const randomizeArray = (beers) => {
 
 
 
-router.get('/', (req, res) => {
-    res.sendFile('./index.html');
-    // res.json({
-    //     success: true
-    // })
-})
 
-router.get('/all-drinking-buddies/:username', (req, res) => {
+
+router.get('/drinking-buddies/:username', (req, res) => {
     const username = req.params.username;
+
+    if (!username) {
+        return res.send('no username given');
+    }
 
     orm.getDrinkingBuddies(username)
         .then(response => {
@@ -131,6 +130,22 @@ router.get('/all-drinking-buddies/:username', (req, res) => {
         })
         .catch(err => {
             res.json(err);
+        })
+})
+
+router.put('/drinking-buddies', (req, res) => {
+    const username = req.body.username;
+
+    if (!username) {
+        return res.send('no username given');
+    }
+
+    orm.setDrinkingBuddies(username)
+        .then(response => {
+            res.json(response);
+        })
+        .catch(err => {
+
         })
 })
 
@@ -202,6 +217,17 @@ router.post('/beer-match', (req, res) => {
         .catch(err => {
 
         })
+})
+
+
+router.get('/app', (req,res) => {
+    const url = path.join(__dirname, '..', 'public', 'html', 'app.html');
+    res.sendFile(url);
+})
+
+router.get('*', (req,res) => {
+    const url = path.join(__dirname, '..', 'public', 'html', 'login.html');
+    res.sendFile(url);
 })
 
 module.exports = router;
