@@ -26,6 +26,7 @@ body {
     /* background-color: darkgray; */
     font-family: 'Alegreya Sans SC', sans-serif;
     /* opacity:0.85; */
+    /* overflow: hidden; */
 }
 .card:after {
     content:'';

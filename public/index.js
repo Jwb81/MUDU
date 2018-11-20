@@ -85,7 +85,7 @@ const createBeerCard = (beer) => {
 
     const abv = $('<li>')
         .addClass('list-group-item')
-        .text('ABV: ' + beer.abv || '');
+        .text('ABV: ' + beer.abv + '%'|| '');
 
     const category = $('<li>')
         .addClass('list-group-item')
@@ -106,13 +106,14 @@ const createBeerCard = (beer) => {
         .data('beer-id', beer.id)
         .data('match', true)
         .click(handleBeerSelection);
+        
 
     const buttonDislike = $('<button>')
         .addClass('btn btn-danger')
         .text('No Thanks...')
         .data('beer-id', beer.id)
         .data('match', false)
-        .click(handleBeerSelection);
+        .click(handleBeerSelectionDislike);
 
     buttonsContainer
         .append(buttonLike)
@@ -154,12 +155,48 @@ const handleBeerSelection = (evt) => {
     })
 
     const allCards = $('.card');
-    $(allCards[0]).remove(); // remove current card
-    if (allCards.length > 1) {
+    $(allCards[0]).animate({left:'-1300'},1000, function(){
+    
+        if (allCards.length > 1) {
         $(allCards[1]).removeClass('hidden'); // show the next card
-    } else {
+        
+        } else {
         getUnmatchedBeers();
-    }
+        }
+        $(allCards[0]).remove();
+    });
+
+}
+
+const handleBeerSelectionDislike = (evt) => {
+    // get the beer id
+    const beerID = $(evt.currentTarget).data('beer-id');
+    const username = 'jay';
+    const match = $(evt.currentTarget).data('match');
+
+    // send the match to the database
+    $.ajax({
+        method: 'POST',
+        url: '/beer-match',
+        data: {
+            username,
+            beer_id: beerID,
+            match
+        }
+    })
+
+    const allCards = $('.card');
+    $(allCards[0]).animate({right:'-1100'},1000, function(){
+    
+        if (allCards.length > 1) {
+        $(allCards[1]).removeClass('hidden'); // show the next card
+        
+        } else {
+        getUnmatchedBeers();
+        }
+    $(allCards[0]).remove();
+    });
+
 }
 
 const toggleInfoPanel = () => {
