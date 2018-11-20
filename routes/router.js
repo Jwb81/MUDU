@@ -6,6 +6,9 @@ const orm = require('../config/orm');
 const fs = require('fs');
 const path = require('path');
 
+const K = require('kyanite');
+
+
 /**
  * 1. make a request to get the number of pages
  * 2. make a request for each page and add all drinks to an object hosted on the server
@@ -22,6 +25,18 @@ fs.readFile(filename, (err, data) => {
     allBeers = randomizeArray(JSON.parse(data));
 
     // sort by beers with pictures first
+    const beerWithImages = K.filter(obj => {
+        return obj.labels != undefined;
+    }, allBeers);
+
+    const beerWithoutImages = K.filter(obj => {
+        return obj.labels == undefined;
+    }, allBeers);
+    
+    allBeers = [];
+    allBeers = allBeers.concat(beerWithImages);
+    allBeers = allBeers.concat(beerWithoutImages);
+
 
     console.log(`First: ${allBeers[0].name}`)
     console.log(`Length: ${allBeers.length}`)
@@ -184,7 +199,7 @@ router.get('/matched-beers/:username', (req, res) => {
         .then(results => {
             // filter only true matches
             const matches = results.data.filter(x => x.matched)
-            
+
             // go through each match and get the full obj
             const fullMatchObjArr = matches.map(match => {
                 // search for the full object in allBeers

@@ -3,6 +3,7 @@ body {
     scroll-behavior: smooth;
     background-color:rgb(241, 240, 240);
     text-align: center;
+    overflow-x: hidden;
 }
 
 .containerForMainImage {
@@ -178,8 +179,9 @@ body {
 } */
 
 .login-card {
-    min-width: 400px;
-    max-width: 500px;
+    min-width: 300px;
+    max-width: 90%;
+    margin: 0 auto;
     background-color: rgba(143, 143, 143, 0.7);
     /* background-color: rgba(50,50,50,0.75); */
     margin: 0 auto;
