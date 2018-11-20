@@ -19,6 +19,6 @@ VALUES
 ('nopqrs', 'babyjay2114', false),
 ('tuvwxy', 'babyjay2114', false),
 ('abcdef', 'LaurenSantos23', true),
-('hijklm', 'LaurenSantos23', false),
-('nopqrs', 'LaurenSantos23', true),
-('tuvwxy', 'LaurenSantos23', false);
+('hijklm', 'test', false),
+('nopqrs', 'hello', true),
+('tuvwxy', 'world', false);

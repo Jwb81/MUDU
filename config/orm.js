@@ -14,6 +14,7 @@ const getBeerLimit = 10;
  * @function getDrinkingBuddies
  * @function setDrinkingBuddies
  * 
+ * @function addUser
  * @function findUser
  * @function getAllUsers
  * @function updateUser
@@ -337,6 +338,43 @@ const orm = {
 
             })
         });
+    },
+
+    addUser: (firstName, lastName, username, email, age) => {
+        return new Promise((resolve, reject) => {
+            orm.findUser(username)
+                .then(result => {
+                    return reject({
+                        success: false,
+                        message: 'Username taken'
+                    })
+                })
+                .catch(err => {
+                    if (err.status == 500) {
+                        return reject(err);
+                    }
+
+                    // add user to database
+                    let query = 'INSERT INTO users (username, first_name, last_name, age, email_address) ';
+                    query += ' VALUES(?, ?, ?, ?, ?)';
+
+                    const q = conn.query(query, [username, firstName, lastName, age, email], (err, data) => {
+                        console.log(`SQL: ${q.sql}`);
+                        if (err) {
+                            return reject({
+                                status: 500,
+                                success: false,
+                                error: err,
+                                message: `SQL failed in 'addUser'`
+                            });
+                        }
+
+                        resolve({
+                            success: true
+                        })
+                    })
+                })
+        })
     },
 
     findUser: (username) => {

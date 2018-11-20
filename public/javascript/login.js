@@ -1,12 +1,15 @@
 const txtUsername = document.getElementById('txtUsername');
 const txtEmail = document.getElementById('txtEmail');
 const txtPassword = document.getElementById('txtPassword');
-const txtZip = document.getElementById('txtZip');
+const txtFirstname = document.getElementById('txtFirstName');
+const txtLastName = document.getElementById('txtLastName');
+// const txtZip = document.getElementById('txtZip');
 const txtAge = document.getElementById('txtAge')
 const loginError = document.getElementById('login-error');
 const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
-const btnSingOut = document.getElementById('btnSignOut');
+// const btnSignOut = document.getElementById('btnSignOut');
+const toggleLoginForm = document.getElementById('toggle-login-forms');
 
 // Login Event
 btnLogin.addEventListener('click', e => {
@@ -58,15 +61,32 @@ btnSignUp.addEventListener('click', e => {
   txtUsername.classList.remove('red-border');
   txtEmail.classList.remove('red-border');
   txtPassword.classList.remove('red-border');
+  txtAge.classList.remove('red-border');
+
   loginError.classList.add('hidden');
 
   // logout any previous users
   // logout();
 
+  const firstName = txtFirstname.value;
+  const lastName = txtLastName.value;
   const username = txtUsername.value;
   const email = txtEmail.value;
   const pass = txtPassword.value;
+  const age = txtAge.value;
 
+  if (!firstName) {
+    txtFirstname.classList.add('red-border');
+    loginError.innerText = `'First name' cannot be empty.`
+    loginError.classList.remove('hidden');
+    return;
+  }
+  if (!lastName) {
+    txtLastName.classList.add('red-border');
+    loginError.innerText = `'Last Name' cannot be empty.`
+    loginError.classList.remove('hidden');
+    return;
+  }
   if (!username) {
     txtUsername.classList.add('red-border');
     loginError.innerText = `'Username' cannot be empty.`
@@ -85,8 +105,13 @@ btnSignUp.addEventListener('click', e => {
     loginError.classList.remove('hidden');
     return;
   }
+  if (!age || isNaN(age)) {
+    txtAge.classList.add('red-border');
+    loginError.innerText = `'Age' must be a number.`
+    loginError.classList.remove('hidden');
+  }
 
-  signup(username, email, pass, response => {
+  signup(firstName, lastName, username, email, pass, age, response => {
     if (!response.success) {
       loginError.innerText = response.message;
       loginError.classList.remove('hidden');
@@ -97,9 +122,41 @@ btnSignUp.addEventListener('click', e => {
   })
 });
 
-btnLogout.addEventListener('click', e => {
-  logout();
+// btnLogout.addEventListener('click', e => {
+//   logout();
+// })
+
+toggleLoginForm.addEventListener('click', (evt) => {
+  const thisText = evt.currentTarget.innerText;
+
+  // if its on the login form, switch to the signup form
+  if (thisText == 'Signup instead?') {
+    // change text
+    evt.currentTarget.innerText = 'Login instead?';
+    
+    // hide the login form and show the signup form
+    document.getElementById('login-form').classList.add('hidden');
+    document.getElementById('signup-form').classList.remove('hidden');
+
+    // hide login button and show signup button
+    document.getElementById('btnLogin').classList.add('hidden');
+    document.getElementById('btnSignUp').classList.remove('hidden');
+    return;
+  }
+
+  // change text
+  evt.currentTarget.innerText = 'Signup instead?';
+    
+  // hide the login form and show the signup form
+  document.getElementById('signup-form').classList.add('hidden');
+  document.getElementById('login-form').classList.remove('hidden');
+
+  // hide login button and show signup button
+  document.getElementById('btnLogin').classList.remove('hidden');
+  document.getElementById('btnSignUp').classList.add('hidden');
 })
+
+
 
 
 // logout previous users on load

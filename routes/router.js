@@ -20,6 +20,9 @@ fs.readFile(filename, (err, data) => {
     if (err) throw err;
 
     allBeers = randomizeArray(JSON.parse(data));
+
+    // sort by beers with pictures first
+
     console.log(`First: ${allBeers[0].name}`)
     console.log(`Length: ${allBeers.length}`)
 })
@@ -115,14 +118,16 @@ const randomizeArray = (beers) => {
 
 
 
-router.get('/check-username/:username', (req, res) => {
-    const username = req.params.username;
+router.post('/new-user', (req, res) => {
+    const firstName = req.body.first_name;
+    const lastName = req.body.last_name;
+    const username = req.body.username;
+    const email = req.body.email;
+    const age = req.body.age;
 
-    orm.findUser(username)
-        .then(user => {
-            res.json({
-                taken: true
-            });
+    orm.addUser(firstName, lastName, username, email, age)
+        .then(result => {
+            res.json(result);
         })
         .catch(err => {
             res.json(err);

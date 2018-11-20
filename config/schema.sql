@@ -5,11 +5,11 @@ USE beer_tinder;
 
 CREATE TABLE users  (
     username VARCHAR(200) NOT NULL,
-    password VARCHAR(200) NOT NULL,
+    -- password VARCHAR(200) NOT NULL,
     first_name VARCHAR(200) NOT NULL,
     last_name VARCHAR(200) NOT NULL,
     age INT NOT NULL,
-    address varchar(200),
+    -- address varchar(200),
     email_address VARCHAR(200) NOT NULL,
     PRIMARY KEY (username)
 );
