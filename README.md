@@ -46,3 +46,12 @@ Beer Tinder walkthrough goes here, with a detailed explanation of user experienc
 ### Link to Deployed M.U.D.U site on Heroku
 
 http://fuchsia-beer-tinder.herokuapp.com/
+
+### Contributors to this Project (Team Fuschia)
+Jason Barnett @Jwb81,
+Kristian Neely @kneely13,
+Lauren Santosuosso @LaurenSantos23,
+Will Bursch @willbursch
+
+
+
