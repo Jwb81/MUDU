@@ -1,6 +1,3 @@
-
-
-
 // get more cards from the server
 //returns beers that are not seen by the user
 const getUnmatchedBeers = () => {
@@ -435,12 +432,13 @@ $('#calculate-buddies').click(evt => {
 
 
 // STARTUP FUNCTIONS
-// getUser()
-// .then(() => {
-//     getUnmatchedBeers();
-//     getMatchedBeers();
-//     getDrinkingBuddies();
-// })
-// .catch(err => {
-//     console.log(err);
-// })
+firebase.auth().onAuthStateChanged(function (firebaseUser) {
+    user = firebaseUser;
+    if (firebaseUser) {
+        getUnmatchedBeers();
+        getMatchedBeers();
+        getDrinkingBuddies();
+    } else {
+        console.log('not logged in')
+    }
+});

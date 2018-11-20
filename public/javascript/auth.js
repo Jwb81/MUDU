@@ -13,21 +13,25 @@ firebase.initializeApp(config);
 // let user = null;
 const auth = firebase.auth();
 let user;
+// let startFunctionsRan = false;
 
-firebase.auth().onAuthStateChanged(function (firebaseUser) {
-    user = firebaseUser;
-    if (firebaseUser) {
-        user = firebaseUser;
-        // console.log(firebaseUser);
-        // btnLogout.classList.remove('hide')
+// const setAuthChangeListener = (functionArr) => {
+//     firebase.auth().onAuthStateChanged(function (firebaseUser) {
+//         user = firebaseUser;
+//         if (firebaseUser) {
+//             user = firebaseUser;
+//             if (!startFunctionsRan) {
+//                 functionArr.forEach(func => func());
+//                 startFunctionsRan = true;
+//             }
 
-        // go to app page
-        // window.location = '/app';
-    } else {
-        user = null;
-        console.log('not logged in')
-    }
-});
+//         } else {
+//             user = null;
+//             console.log('not logged in')
+//         }
+//     });
+    
+// }
 
 
 const login = (email, password, cb) => {
@@ -73,6 +77,6 @@ const signup = (username, email, password, cb) => {
 const getUser = () => {
     return new Promise((resolve, reject) => {
         user = firebase.auth().currentUser;
-        resolve();
+        resolve(user);
     })
 }
