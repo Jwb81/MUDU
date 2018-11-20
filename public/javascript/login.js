@@ -1,8 +1,6 @@
 const txtUsername = document.getElementById('txtUsername');
 const txtEmail = document.getElementById('txtEmail');
 const txtPassword = document.getElementById('txtPassword');
-const txtZip = document.getElementById('txtZip');
-const txtAge = document.getElementById('txtAge')
 const loginError = document.getElementById('login-error');
 const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
@@ -19,8 +17,6 @@ btnLogin.addEventListener('click', e => {
 
   const email = txtEmail.value;
   const pass = txtPassword.value;
-  const age = txtAge.value;
-  const zip = txtZip.value;
 
   if (!email) {
     txtEmail.classList.add('red-border');
@@ -34,18 +30,14 @@ btnLogin.addEventListener('click', e => {
     loginError.classList.remove('hidden');
     return;
   }
-  // if (!age) {
-  //   txtPassword.classList.add('red-border');
-  //   loginError.innerText = `'Age' cannot be empty.`
-  //   loginError.classList.remove('hidden');
-  //   return;
-  // }
+
   login(email, pass, response => {
     if (!response.success) {
       loginError.innerText = response.message;
       loginError.classList.remove('hidden');
       return;
     }
+    console.log('going to app');
     // go to app if successful
     window.location = '/app';
   });
@@ -88,7 +80,7 @@ btnSignUp.addEventListener('click', e => {
 
   signup(username, email, pass, response => {
     if (!response.success) {
-      loginError.innerText = response.message;
+      loginError.innerText = e.message;
       loginError.classList.remove('hidden');
       return;
     }

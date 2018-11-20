@@ -6,9 +6,6 @@ const getBeerLimit = 10;
 /**
  * FUNCTIONS
  * 
- * @function getChatKey
- * @function updateChatKey
- * 
  * @function getUnmatchedBeers
  * 
  * @function getDrinkingBuddies
@@ -28,67 +25,6 @@ const getBeerLimit = 10;
  */
 
 const orm = {
-
-    getChatKey: (me, them) => {
-        return new Promise((resolve, reject) => {
-            const query = 'SELECT chat_key FROM drinking_buddies where ';
-            query += ' ((username1 = ? OR username1 = ?) AND (username2 = ? OR username2 = ?))';
-
-            conn.query(query, [me, them, me, them], (err, data) => {
-                if (err) {
-                    return reject({
-                        status: 500,
-                        success: false,
-                        error: err,
-                        message: `SQL failed in 'getChatID'`
-                    });
-                }
-
-                if (!data.length) {
-                    return reject({
-                        status: 404,
-                        success: false,
-                        error: null,
-                        message: 'That pairing was not found'
-                    });
-                }
-
-                resolve({
-                    success: true,
-                    data: data[0]
-                })
-            })
-        })
-    },
-
-    updateChatKey: (username1, username2, chatKey) => {
-        return new Promise((resolve, reject) => {
-            const query = 'UPDATE drinking_buddies SET chat_key = ? WHERE username1 = ? AND username2 = ?';
-
-            conn.query(query, [chatKey, username1, username2], (err, data) => {
-                if (err) {
-                    return reject({
-                        status: 500,
-                        success: false,
-                        error: err,
-                        message: `SQL failed in 'updateChatKey'`
-                    });
-                }
-
-                if (!data.affectedRows) {
-                    return reject({
-                        success: false,
-                        status: 404,
-                        message: 'Chat key did not update'
-                    });
-                }      
-                
-                resolve({
-                    success: true
-                })
-            })
-        })
-    },
 
     getUnmatchedBeers: (username, allBeers) => {
         return new Promise((resolve, reject) => {
@@ -222,11 +158,10 @@ const orm = {
             Promise.all([drinkingBuddiesPromise, allUsersPromise, beerMatchesPromise]).then(values => {
                 const currentDrinkingBuddies = values[0].data; // get all drinking buddies already in the database
                 const userArr = values[1].data; // holds all users in the database
-                const beerMatches = values[2].data.filter(beer => beer.matched);
+                const beerMatches = values[2].data;
 
                 let userMatchesPromiseArr = [];
                 userArr.forEach(user => {
-                    // console.log(user.username);
                     userMatchesPromiseArr = userMatchesPromiseArr.concat(orm.getBeerMatches(user.username))
                 })
 
@@ -236,8 +171,8 @@ const orm = {
                             return false;   // filter the user out so he's not compared to itself
                         }
 
-                        const buddyMatchesArr = values[idx].data.filter(beer => beer.matched);
-                        // console.log(buddyMatchesArr)
+                        let found = false;
+                        const buddyMatchesArr = values[idx].data;
                         for (let i = 0; i < buddyMatchesArr.length; i++) { // iterate through buddy's matches
                             for (let j = 0; j < beerMatches.length; j++) { // iterate through this user's matches
                                 if (buddyMatchesArr[i].beer_id === beerMatches[j].beer_id) {
@@ -248,10 +183,8 @@ const orm = {
                         return false;
                     })
 
-                    // console.log(newBuddies)
-
                     if (!newBuddies || !newBuddies.length) {
-                        // console.log('no new buddies found');
+                        console.log('no new buddies found');
                         return reject('no new buddies found');
                     }
 
@@ -291,8 +224,8 @@ const orm = {
                         return false;
                     })
 
-                    // console.log(`New buds:`);
-                    // console.log(newBuddies);
+                    console.log(`New buds:`);
+                    console.log(newBuddies);
 
                     // put the new buddies into the database
                     newBuddies.forEach(x => {
@@ -421,6 +354,7 @@ const orm = {
             })
         })
     },
+
 
 
     deleteUser: (username) => {

@@ -9,7 +9,7 @@ CREATE TABLE users  (
     first_name VARCHAR(200) NOT NULL,
     last_name VARCHAR(200) NOT NULL,
     age INT NOT NULL,
-    address varchar(200),
+    address varchar(200) NOT NULL,
     email_address VARCHAR(200) NOT NULL,
     PRIMARY KEY (username)
 );
@@ -26,7 +26,6 @@ CREATE TABLE beer_matches (
 CREATE TABLE drinking_buddies (
 	username1 VARCHAR(200) NOT NULL,
     username2 VARCHAR(200) NOT NULL,
-    chat_key VARCHAR(200) NULL,
 
     PRIMARY KEY(username1, username2)
 );

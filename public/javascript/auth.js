@@ -30,7 +30,7 @@ let user;
 //             console.log('not logged in')
 //         }
 //     });
-
+    
 // }
 
 
@@ -38,7 +38,7 @@ const login = (email, password, cb) => {
     // const promise = auth.signInWithEmailAndPassword(email, pass);
     auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-            cb({
+            return cb({
                 success: true
             })
         })
@@ -51,44 +51,27 @@ const login = (email, password, cb) => {
 }
 
 const logout = () => {
+    console.log('logging out');
     auth.signOut();
 }
 
 const signup = (username, email, password, cb) => {
-    // check if username is taken
-    $.ajax({
-        method: 'GET',
-        url: `/check-username/${username}`
-    }).then(data => {
-        console.log(data);
-        if (data.success) {
-            // username is taken
-            return cb({
-                success: false,
-                message: 'Username already taken'
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(user => {
+            firebase.auth().currentUser.updateProfile({
+                displayName: username
             })
-        }
-
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(user => {
-                firebase.auth().currentUser.updateProfile({
-                    displayName: username
-                })
-                return cb({
-                    success: true
-                });
-            })
-            .catch(e => {
-                console.log(e);
-                return cb({
-                    success: false,
-                    message: e.message
-                })
+            cb({
+                success: true
             });
-
-    })
-
-
+        })
+        .catch(e => {
+            console.log(e.message);
+            cb({
+                success: false,
+                message: e.message
+            })
+        });
 }
 
 const getUser = () => {

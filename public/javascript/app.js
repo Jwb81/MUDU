@@ -44,7 +44,6 @@ const getMatchedBeers = () => {
             method: 'GET',
             url: `/matched-beers/${username}`
         }).then(beers => {
-            console.log(beers)
             Array.from(beers).forEach(beer => {
                 //panel is hidden at start
                 //accoridan shows alls the beers requested that are liked, accordian drops down info and creates the button and the panel that opens
@@ -71,7 +70,6 @@ const getDrinkingBuddies = () => {
         method: 'GET',
         url: `/drinking-buddies/${username}`
     }).then(result => {
-        $('#buddy-matches').empty();
         result.data.forEach(buddy => {
             const newBuddyLayer = createBuddyLayer(buddy);
 
@@ -196,24 +194,10 @@ const handleBeerSelection = (evt) => {
         }
     })
 
-    // animate the card
-    const cardArr = $('.card');
-    if (match) {
-        $(cardArr[0]).animate({
-            right: '-1100'
-        }, 500, () => removeCard(cardArr));
-    } else {
-        $(cardArr[0]).animate({
-            left: '-1300'
-        }, 500, () => removeCard(cardArr));
-    }
-}
-
-const removeCard = cardArr => {
-    // remove the card
-    cardArr[0].remove();
-    if (cardArr.length > 1) {
-        $(cardArr[1]).removeClass('hidden'); // show the next card
+    const allCards = $('.card');
+    $(allCards[0]).remove(); // remove current card
+    if (allCards.length > 1) {
+        $(allCards[1]).removeClass('hidden'); // show the next card
     } else {
         getUnmatchedBeers();
     }
@@ -229,11 +213,6 @@ const toggleInfoPanel = () => {
 
 
 const createAccordionLayer = (match) => {
-    if (!match) {
-        // return so the function doesn't fail
-        return;
-    }
-
     const button = $('<button>')
         .addClass('accordion')
         .text(match.name)
@@ -447,12 +426,6 @@ $('#calculate-buddies').click(evt => {
         }
     }).then(result => {
         console.log(result);
-        // get new drinking buddies without reloading the page
-        getDrinkingBuddies();
-
-        // open buddies panel
-        $('#toggle-buddy-matches').click();
-        window.location = '#user-matches-container'
     })
 })
 
