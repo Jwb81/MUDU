@@ -179,14 +179,18 @@ router.get('/matched-beers/:username', (req, res) => {
         .then(results => {
             // filter only true matches
             const matches = results.data.filter(x => x.matched)
-
+            
             // go through each match and get the full obj
             const fullMatchObjArr = matches.map(match => {
                 // search for the full object in allBeers
                 return allBeers.find(function (obj) {
-                    return obj.id === match.beer_id
+                    return obj.id == match.beer_id;
                 });
             })
+
+            // filter out any null objects (used in testing)
+            // fullMatchObjArr = fullMatchObjArr.filter(obj => obj);
+
             res.json(fullMatchObjArr);
         })
         .catch(err => {
@@ -201,6 +205,41 @@ router.get('/allbeers/:pageNumber', (req, res) => {
         res.json(JSON.parse(response.body));
         // console.log(body);
     })
+})
+
+router.get('/chat-key/:me/:them', (req, res) => {
+    const me = req.params.me;
+    const them = req.params.them;
+
+    orm.getChatKey(me, them)
+        .then(result => {
+            console.log(result);
+            res.json({
+                success: true,
+                chat_key: result.data.chat_key
+            })
+        })
+        .catch(err => {
+            res.json(err);
+        })
+})
+
+router.post('/chat-key', (req, res) => {
+    const me = req.body.me;
+    const them = req.body.them;
+
+    orm.getChatKey(me, them)
+        .then(result => {
+            // now update that pairing with the usernames
+            result = result.data;
+            orm.updateChatKey(result.username1, result.username2, result.chat_key)
+                .then(response => {
+                    res.json(response);
+                })
+        })
+        .catch(err => {
+            res.json(err);
+        })
 })
 
 router.put('/beer-match', (req, res) => {
@@ -232,12 +271,12 @@ router.post('/beer-match', (req, res) => {
 })
 
 
-router.get('/app', (req,res) => {
+router.get('/app', (req, res) => {
     const url = path.join(__dirname, '..', 'public', 'html', 'app.html');
     res.sendFile(url);
 })
 
-router.get('*', (req,res) => {
+router.get('*', (req, res) => {
     const url = path.join(__dirname, '..', 'public', 'html', 'login.html');
     res.sendFile(url);
 })

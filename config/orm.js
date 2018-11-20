@@ -6,6 +6,9 @@ const getBeerLimit = 10;
 /**
  * FUNCTIONS
  * 
+ * @function getChatKey
+ * @function updateChatKey
+ * 
  * @function getUnmatchedBeers
  * 
  * @function getDrinkingBuddies
@@ -25,6 +28,67 @@ const getBeerLimit = 10;
  */
 
 const orm = {
+
+    getChatKey: (me, them) => {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT chat_key FROM drinking_buddies where ';
+            query += ' ((username1 = ? OR username1 = ?) AND (username2 = ? OR username2 = ?))';
+
+            conn.query(query, [me, them, me, them], (err, data) => {
+                if (err) {
+                    return reject({
+                        status: 500,
+                        success: false,
+                        error: err,
+                        message: `SQL failed in 'getChatID'`
+                    });
+                }
+
+                if (!data.length) {
+                    return reject({
+                        status: 404,
+                        success: false,
+                        error: null,
+                        message: 'That pairing was not found'
+                    });
+                }
+
+                resolve({
+                    success: true,
+                    data: data[0]
+                })
+            })
+        })
+    },
+
+    updateChatKey: (username1, username2, chatKey) => {
+        return new Promise((resolve, reject) => {
+            const query = 'UPDATE drinking_buddies SET chat_key = ? WHERE username1 = ? AND username2 = ?';
+
+            conn.query(query, [chatKey, username1, username2], (err, data) => {
+                if (err) {
+                    return reject({
+                        status: 500,
+                        success: false,
+                        error: err,
+                        message: `SQL failed in 'updateChatKey'`
+                    });
+                }
+
+                if (!data.affectedRows) {
+                    return reject({
+                        success: false,
+                        status: 404,
+                        message: 'Chat key did not update'
+                    });
+                }      
+                
+                resolve({
+                    success: true
+                })
+            })
+        })
+    },
 
     getUnmatchedBeers: (username, allBeers) => {
         return new Promise((resolve, reject) => {
@@ -357,7 +421,6 @@ const orm = {
             })
         })
     },
-
 
 
     deleteUser: (username) => {

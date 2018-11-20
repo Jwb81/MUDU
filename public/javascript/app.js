@@ -44,6 +44,7 @@ const getMatchedBeers = () => {
             method: 'GET',
             url: `/matched-beers/${username}`
         }).then(beers => {
+            console.log(beers)
             Array.from(beers).forEach(beer => {
                 //panel is hidden at start
                 //accoridan shows alls the beers requested that are liked, accordian drops down info and creates the button and the panel that opens
@@ -228,6 +229,11 @@ const toggleInfoPanel = () => {
 
 
 const createAccordionLayer = (match) => {
+    if (!match) {
+        // return so the function doesn't fail
+        return;
+    }
+
     const button = $('<button>')
         .addClass('accordion')
         .text(match.name)
@@ -444,7 +450,9 @@ $('#calculate-buddies').click(evt => {
         // get new drinking buddies without reloading the page
         getDrinkingBuddies();
 
-        // open
+        // open buddies panel
+        $('#toggle-buddy-matches').click();
+        window.location = '#user-matches-container'
     })
 })
 
