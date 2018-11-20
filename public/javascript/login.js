@@ -111,7 +111,7 @@ btnSignUp.addEventListener('click', e => {
     loginError.classList.remove('hidden');
   }
 
-  signup(username, email, pass, age, response => {
+  signup(firstName, lastName, username, email, pass, age, response => {
     if (!response.success) {
       loginError.innerText = response.message;
       loginError.classList.remove('hidden');

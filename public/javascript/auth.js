@@ -54,14 +54,21 @@ const logout = () => {
     auth.signOut();
 }
 
-const signup = (username, email, password, age, cb) => {
+const signup = (firstName, lastName, username, email, password, age, cb) => {
     // check if username is taken
     $.ajax({
-        method: 'GET',
-        url: `/check-username/${username}`
+        method: 'POST',
+        url: `/new-user`,
+        data: {
+            first_name: firstName,
+            last_name: lastName,
+            username,
+            email,
+            age
+        }
     }).then(data => {
         console.log(data);
-        if (data.success) {
+        if (!data.success) {
             // username is taken
             return cb({
                 success: false,
