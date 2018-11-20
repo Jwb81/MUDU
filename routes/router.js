@@ -20,6 +20,9 @@ fs.readFile(filename, (err, data) => {
     if (err) throw err;
 
     allBeers = randomizeArray(JSON.parse(data));
+
+    // sort by beers with pictures first
+    
     console.log(`First: ${allBeers[0].name}`)
     console.log(`Length: ${allBeers.length}`)
 })

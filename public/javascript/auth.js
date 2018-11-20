@@ -54,7 +54,7 @@ const logout = () => {
     auth.signOut();
 }
 
-const signup = (username, email, password, cb) => {
+const signup = (username, email, password, age, cb) => {
     // check if username is taken
     $.ajax({
         method: 'GET',

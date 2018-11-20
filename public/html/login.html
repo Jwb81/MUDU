@@ -18,6 +18,7 @@
 
   <title>Login/SignUp</title>
 </head>
+
 <body style="background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Bz2gEVJgeius27jfj/friends-cheers-beers-at-beach_b0ybmmvex_thumbnail-full01.png)">
   <div class="container" id='login-container'>
 
@@ -28,22 +29,31 @@
       <p id="login-error" class='hidden red-text'></p>
 
       <div class="md-form">
-        <input id='txtUsername' type="text" placeholder='Username' class='login-input'>
-        <input id="txtEmail" type="email" placeholder="Email" class='login-input'>
-        <input id="txtPassword" type="password" placeholder="Password" class='login-input'>
-        <input id= "txtZip" type="text" placeholder="ZipCode" class="login-input">
-        <input id="txtAge" type="number" placeholder="Age: Must Be 21+" min='21' class="login-input">
+        <div id="login-form">
+          <input id='txtUsernameLogin' type="text" placeholder='Username' class='login-input'>
+          <input id="txtPasswordLogin" type="password" placeholder="Password" class='login-input'>
+          <button id="btnLogin" class="btn btn-primary">Login</button>
+        </div>
+        <div id="signup-form" class='hidden'>
+          <input id='txtFirstName' type="text" placeholder='First Name' class='login-input'>
+          <input id='txtLastName' type="text" placeholder='Last Name' class='login-input'>
+          <input id='txtUsername' type="text" placeholder='Username' class='login-input'>
+          <input id="txtEmail" type="email" placeholder="Email" class='login-input'>
+          <input id="txtPassword" type="password" placeholder="Password" class='login-input'>
+          <!-- <input id="txtZip" type="text" placeholder="ZipCode" class="login-input"> -->
+          <input id="txtAge" type="number" placeholder="Age: Must Be 21+" min='21' class="login-input">
+          <button id="btnSignUp" class="btn btn-success">Sign Up</button>
+        </div>
+        <a id='toggle-login-forms'>Signup instead?</a>
 
-        <div class="row">
+        <!-- <div class="row">
           <div class="col"></div>
           <hr>
           <div class="col-10">
-            <button id="btnLogin" class="btn btn-primary">Login</button>
-            <button id="btnSignUp" class="btn btn-success">Sign Up</button>
             <button id="btnLogout" class="btn btn-dark">Log Out</button>
           </div>
           <div class="col"></div>
-        </div>
+        </div> -->
       </div>
     </div>
     <!--End of card-->
