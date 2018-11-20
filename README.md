@@ -18,7 +18,7 @@ The following NPM Packages are installed to run this app:
 Upon the page loading, the user has the option of logging in or signing up for M.U.D.U. They must enter a Username, email address and password to sign up. This information is stored using a firebase database.  The user is then brought to the main page.  The top of the page bears the M.U.D.U. logo and title. There is a message that states "Meet Up, Drink Up! Match with people that have similar beer preferences and plan meet-ups!" Beneath the welcome message the user is presented cards with random beers pulled from the BreweryDB API. They have the option of selecting "bottoms up" if they like the beer and "no thanks" otherwise.  The ABV percentage of the beer and category (i.e. pilsner, IPA) is displayed under an image of the beer label (if available from BreweryDB API). The card also has an option for more information ( if available from BreweryDB API) about the beer, by clicking the "i" button on the bottom right the user can access that information. There is an option to "show matches" and "show buddies" under the main card. The page then dynamically displays "matches" which are the beers the user selected as a preference. The "show buddies" button displays user's that have similar beer preferences. 
 
 ## Future Goals for M.U.D.U
- We will put our future goals here once we are happy with MVP for application
+ A future goal for this application is to add a feature for matches based off proximity of location.  We would also like to add a chat feature to our application. We would also like to improve the user's experience with a better selection of images, information and beer perhaps by utilzing a different API. 
 
 ## Screenshots of Site
 
