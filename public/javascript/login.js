@@ -31,13 +31,13 @@ btnLogin.addEventListener('click', e => {
     return;
   }
 
-  login(email, pass, response => {
+  login(email, pass, function(response) {
+    console.log(response);
     if (!response.success) {
       loginError.innerText = response.message;
       loginError.classList.remove('hidden');
       return;
     }
-    console.log('going to app');
     // go to app if successful
     window.location = '/app';
   });
@@ -80,7 +80,7 @@ btnSignUp.addEventListener('click', e => {
 
   signup(username, email, pass, response => {
     if (!response.success) {
-      loginError.innerText = e.message;
+      loginError.innerText = response.message;
       loginError.classList.remove('hidden');
       return;
     }

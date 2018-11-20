@@ -158,10 +158,11 @@ const orm = {
             Promise.all([drinkingBuddiesPromise, allUsersPromise, beerMatchesPromise]).then(values => {
                 const currentDrinkingBuddies = values[0].data; // get all drinking buddies already in the database
                 const userArr = values[1].data; // holds all users in the database
-                const beerMatches = values[2].data;
+                const beerMatches = values[2].data.filter(beer => beer.matched);
 
                 let userMatchesPromiseArr = [];
                 userArr.forEach(user => {
+                    // console.log(user.username);
                     userMatchesPromiseArr = userMatchesPromiseArr.concat(orm.getBeerMatches(user.username))
                 })
 
@@ -171,8 +172,8 @@ const orm = {
                             return false;   // filter the user out so he's not compared to itself
                         }
 
-                        let found = false;
-                        const buddyMatchesArr = values[idx].data;
+                        const buddyMatchesArr = values[idx].data.filter(beer => beer.matched);
+                        // console.log(buddyMatchesArr)
                         for (let i = 0; i < buddyMatchesArr.length; i++) { // iterate through buddy's matches
                             for (let j = 0; j < beerMatches.length; j++) { // iterate through this user's matches
                                 if (buddyMatchesArr[i].beer_id === beerMatches[j].beer_id) {
@@ -183,8 +184,10 @@ const orm = {
                         return false;
                     })
 
+                    // console.log(newBuddies)
+
                     if (!newBuddies || !newBuddies.length) {
-                        console.log('no new buddies found');
+                        // console.log('no new buddies found');
                         return reject('no new buddies found');
                     }
 
@@ -224,8 +227,8 @@ const orm = {
                         return false;
                     })
 
-                    console.log(`New buds:`);
-                    console.log(newBuddies);
+                    // console.log(`New buds:`);
+                    // console.log(newBuddies);
 
                     // put the new buddies into the database
                     newBuddies.forEach(x => {

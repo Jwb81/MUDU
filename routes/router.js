@@ -115,7 +115,19 @@ const randomizeArray = (beers) => {
 
 
 
+router.get('/check-username/:username', (req, res) => {
+    const username = req.params.username;
 
+    orm.findUser(username)
+        .then(user => {
+            res.json({
+                taken: true
+            });
+        })
+        .catch(err => {
+            res.json(err);
+        })
+})
 
 router.get('/drinking-buddies/:username', (req, res) => {
     const username = req.params.username;
