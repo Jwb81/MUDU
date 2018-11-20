@@ -194,10 +194,24 @@ const handleBeerSelection = (evt) => {
         }
     })
 
-    const allCards = $('.card');
-    $(allCards[0]).remove(); // remove current card
-    if (allCards.length > 1) {
-        $(allCards[1]).removeClass('hidden'); // show the next card
+    // animate the card
+    const cardArr = $('.card');
+    if (match) {
+        $(cardArr[0]).animate({
+            right: '-1100'
+        }, 500, () => removeCard(cardArr));
+    } else {
+        $(cardArr[0]).animate({
+            left: '-1300'
+        }, 500, () => removeCard(cardArr));
+    }
+}
+
+const removeCard = cardArr => {
+    // remove the card
+    cardArr[0].remove();
+    if (cardArr.length > 1) {
+        $(cardArr[1]).removeClass('hidden'); // show the next card
     } else {
         getUnmatchedBeers();
     }
