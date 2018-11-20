@@ -22,8 +22,8 @@ btnLogin.addEventListener('click', e => {
 
   const email = txtEmail.value;
   const pass = txtPassword.value;
-  const age = txtAge.value;
-  const zip = txtZip.value;
+//   const age = txtAge.value;
+//   const zip = txtZip.value;
 
   if (!email) {
     txtEmail.classList.add('red-border');
