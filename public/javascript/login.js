@@ -3,6 +3,10 @@ const txtEmail = document.getElementById('txtEmail');
 const txtPassword = document.getElementById('txtPassword');
 const txtFirstname = document.getElementById('txtFirstName');
 const txtLastName = document.getElementById('txtLastName');
+
+const txtEmailLogin = document.getElementById('txtEmailLogin');
+const txtPasswordLogin = document.getElementById('txtPasswordLogin');
+
 // const txtZip = document.getElementById('txtZip');
 const txtAge = document.getElementById('txtAge')
 const loginError = document.getElementById('login-error');
@@ -20,10 +24,8 @@ btnLogin.addEventListener('click', e => {
   // logout any previous users
   // logout();
 
-  const email = txtEmail.value;
-  const pass = txtPassword.value;
-  const age = txtAge.value;
-  const zip = txtZip.value;
+  const email = txtEmailLogin.value;
+  const pass = txtPasswordLogin.value;
 
   if (!email) {
     txtEmail.classList.add('red-border');
