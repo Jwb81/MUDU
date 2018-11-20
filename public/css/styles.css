@@ -117,7 +117,7 @@ body {
 }
 
 #user-matches-container {
-    min-height: 100vh;
+    /* min-height: 100vh; */
     max-width: 90%;
     margin: 0 auto;
     font-family: 'Alegreya Sans SC', sans-serif;

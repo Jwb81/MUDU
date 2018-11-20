@@ -456,6 +456,11 @@ $('#calculate-buddies').click(evt => {
     })
 })
 
+// logout button
+$('#logout-app').click(() => {
+    logout();
+    window.location = '/';
+})
 
 
 // STARTUP FUNCTIONS
