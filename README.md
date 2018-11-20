@@ -15,7 +15,7 @@ The following NPM Packages are installed to run this app:
 * [mysql](https://www.npmjs.com/package/mysql)
 
 ### M.U.D.U Site Walkthrough
-Beer Tinder walkthrough goes here, with a detailed explanation of user experience from beginning to end 
+Upon the page loading, the user has the option of logging in or signing up for M.U.D.U. They must enter a Username, email address and password to sign up. This information is stored using a firebase database.  The user is then brought to the main page.  The top of the apge bears the M.U.D.U. logo and title. There is a message that states "Meet Up, Drink Up! Match with people that have similar beer preferences and plan meet-ups!" Beneath the welcome message the user is presented cards with random beers pulled from the BreweryDB API. They have the option of selecting "bottoms up" if they like the beer and "no thanks" otherwise.  The ABV percentage of the beer and category (i.e. pilsner, IPA) is displayed under an image of the beer label (if available). The card also has an option for information about the beer, by clicking the "i" button on the bottom right the user can access that information. There is an option to "show matches" and "show buddies" under the main card. The page then dynamically displays "matches" which are the beers the user selected as a preference. The "show buddies" button displays user's that have similar beer preferences. 
 
 ## Future Goals for M.U.D.U
  We will put our future goals here once we are happy with MVP for application
