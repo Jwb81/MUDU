@@ -70,6 +70,7 @@ const getDrinkingBuddies = () => {
         method: 'GET',
         url: `/drinking-buddies/${username}`
     }).then(result => {
+        $('#buddy-matches').empty();
         result.data.forEach(buddy => {
             const newBuddyLayer = createBuddyLayer(buddy);
 
@@ -440,6 +441,10 @@ $('#calculate-buddies').click(evt => {
         }
     }).then(result => {
         console.log(result);
+        // get new drinking buddies without reloading the page
+        getDrinkingBuddies();
+
+        // open
     })
 })
 
