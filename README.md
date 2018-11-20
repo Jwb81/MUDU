@@ -22,17 +22,21 @@ Beer Tinder walkthrough goes here, with a detailed explanation of user experienc
 
 ## Screenshots of Site
 
+### Example of M.U.D.U Login Page 
+
+![Example of Login Page for M.U.D.U Site](./public/images/sign-in-page.png)
+
 ### Example of M.U.D.U Home Page (Top) 
 
-![Example of Home Screen for M.U.D.U Site](./public/images/home-screen-top.png)
+![Example of Home Screen for M.U.D.U Site](./public/images/top-app-page.png)
 
 ### Example of M.U.D.U Home Page (Middle) 
 
-![Example of Home Screen for M.U.D.U Site](./public/images/home-screen-middle.png)
+![Example of Home Screen for M.U.D.U Site](./public/images/middle-app-page.png)
 
 ### Example of M.U.D.U Home Page (Bottom)
 
-![Example of Home Screen for M.U.D.U Site](./public/images/home-screen-bottom.png)
+![Example of Home Screen for M.U.D.U Site](./public/images/bottom-app-pagr.png)
 
 
 ### Link to Video Walkthrough of M.U.D.U Site
@@ -42,3 +46,12 @@ Beer Tinder walkthrough goes here, with a detailed explanation of user experienc
 ### Link to Deployed M.U.D.U site on Heroku
 
 http://fuchsia-beer-tinder.herokuapp.com/
+
+### Contributors to this Project (Team Fuschia)
+Jason Barnett @Jwb81,
+Kristian Neely @kneely13,
+Lauren Santosuosso @LaurenSantos23,
+Will Bursch @willbursch
+
+
+
