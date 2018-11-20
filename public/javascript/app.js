@@ -1,7 +1,13 @@
 // get more cards from the server
 //returns beers that are not seen by the user
 const getUnmatchedBeers = () => {
-    const username = 'jay'; // get username here
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const username = user.displayName;
     $.ajax({
         method: 'GET',
         url: `/unmatched-beers/${username}`
@@ -20,13 +26,20 @@ const getUnmatchedBeers = () => {
                 .append(newCard);
 
         })
+
     })
 };
 
 // create accordion for matched beers
 //includes ajax returns beers that are liked by the user
 const getMatchedBeers = () => {
-    const username = 'jay';
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const username = user.displayName;
     $.ajax({
             method: 'GET',
             url: `/matched-beers/${username}`
@@ -35,12 +48,34 @@ const getMatchedBeers = () => {
                 //panel is hidden at start
                 //accoridan shows alls the beers requested that are liked, accordian drops down info and creates the button and the panel that opens
                 const newLayer = createAccordionLayer(beer);
-                $('#user-matches').append(newLayer);
+                $('#beer-matches').append(newLayer);
             })
         })
         .catch(err => {
             console.log(err);
         })
+}
+
+// get drinking buddies for this user
+const getDrinkingBuddies = () => {
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const username = user.displayName;
+
+    $.ajax({
+        method: 'GET',
+        url: `/drinking-buddies/${username}`
+    }).then(result => {
+        result.data.forEach(buddy => {
+            const newBuddyLayer = createBuddyLayer(buddy);
+
+            $('#buddy-matches').append(newBuddyLayer);
+        })
+    })
 }
 
 // create beer cards
@@ -71,7 +106,7 @@ const createBeerCard = (beer) => {
     const infoPanel = $('<div>')
         .addClass('hidden info-panel')
         .text(beer.description || 'No description provided...');
-        //if beer description is avalible it takes the beer description, if not return string 
+    //if beer description is avalible it takes the beer description, if not return string 
 
     cardBody
         .append(cardTitle)
@@ -138,9 +173,15 @@ const createBeerCard = (beer) => {
 
 
 const handleBeerSelection = (evt) => {
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
     // get the beer id
     const beerID = $(evt.currentTarget).data('beer-id');
-    const username = 'jay';
+    const username = user.displayName;
     const match = $(evt.currentTarget).data('match');
 
     // send the match to the database
@@ -249,9 +290,49 @@ const createAccordionLayer = (match) => {
 }
 
 
+// create new card for matched buddies
+const createBuddyLayer = buddy => {
+    const button = $('<button>')
+        .addClass('accordion')
+        .text(`${buddy.first_name} ${buddy.last_name}`)
+        .click(handleAccordionEvent);
+
+    const dropdown = $('<div>')
+        .addClass('panel');
+
+    const username = $('<p>')
+        .html(`<strong>Username:</strong> ${buddy.username || '-'}`);
+
+    const age = $('<p>')
+        .html(`<strong>AGE</strong>: ${buddy.age || '-'}`);
+
+    const chatButton = $('<button>')
+        .addClass('btn btn-info')
+        .data('buddy-username', buddy.username)
+        .text(`Chat with them!`)
+        .click(handleChatEvent);
+
+    // append each layer
+    $(dropdown)
+        .append(age)
+        .append(username)
+        .append(chatButton)
+
+    return $('<div>')
+        .append(button)
+        .append(dropdown);
+}
+
+
 const handleRemoveMatch = (evt) => {
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
     const beerID = $(evt.currentTarget).data('beer-id');
-    const username = 'jay';
+    const username = user.displayName;
 
     $.ajax({
         method: 'PUT',
@@ -280,12 +361,12 @@ const handleAccordionEvent = (evt) => {
     })
     // show the active panel
     var panel = thisLayer.nextElementSibling;
-     if (panel.style.display === "block") {
-         panel.style.display = "none";
-     } else {
-         panel.style.display = "block";
-     }
-    
+    if (panel.style.display === "block") {
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
+
     //  de-activate all buttons
     const allButtons = Array.from($('.accordion'));
     allButtons.forEach(button => {
@@ -302,8 +383,99 @@ for (let i = 0; i < acc.length; i++) {
 
 }
 
+const handleChatEvent = evt => {
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const thisButton = evt.currentTarget;
+    const thisUsername = user.displayName;
+    const buddyUsername = $(thisButton).data('buddy-username');
+
+    console.log(`${thisUsername} wants to chat with ${buddyUsername}`);
+}
+
+// user account button event handlers
+$('#toggle-beer-matches').click(evt => {
+    const thisBtn = evt.currentTarget;
+
+    // check if this button is already toggled on
+    if ($(thisBtn).hasClass('btn-dark')) {
+        return;
+    }
+
+    // make this button look untoggled
+    $(thisBtn)
+        .addClass('btn-dark')
+        .removeClass('btn-outline-dark')
+
+    // toggle the 'show buddies' button
+    $('#toggle-buddy-matches')
+        .removeClass('btn-dark')
+        .addClass('btn-outline-dark')
+
+    // hide the panel of beer matches
+    $('#beer-matches').removeClass('hidden');
+
+    // show the buddy panel
+    $('#buddy-matches').addClass('hidden');
+})
+
+$('#toggle-buddy-matches').click(evt => {
+    const thisBtn = evt.currentTarget;
+
+    // check if this button is already toggled on
+    if ($(thisBtn).hasClass('btn-dark')) {
+        return;
+    }
+    // make this button look untoggled
+    $(thisBtn)
+        .addClass('btn-dark')
+        .removeClass('btn-outline-dark')
+
+    // toggle the 'show buddies' button
+    $('#toggle-beer-matches')
+        .removeClass('btn-dark')
+        .addClass('btn-outline-dark')
+
+    // hide the panel of beer matches
+    $('#buddy-matches').removeClass('hidden');
+
+    // show the buddy panel
+    $('#beer-matches').addClass('hidden');
+})
+
+$('#calculate-buddies').click(evt => {
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const username = user.displayName;
+    $.ajax({
+        method: 'PUT',
+        url: '/drinking-buddies',
+        data: {
+            username
+        }
+    }).then(result => {
+        console.log(result);
+    })
+})
+
 
 
 // STARTUP FUNCTIONS
-getUnmatchedBeers();
-getMatchedBeers();
+firebase.auth().onAuthStateChanged(function (firebaseUser) {
+    user = firebaseUser;
+    if (firebaseUser) {
+        getUnmatchedBeers();
+        getMatchedBeers();
+        getDrinkingBuddies();
+    } else {
+        console.log('not logged in')
+    }
+});
