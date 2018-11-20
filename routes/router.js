@@ -219,6 +219,12 @@ router.post('/beer-match', (req, res) => {
         })
 })
 
+
+router.get('/app', (req,res) => {
+    const url = path.join(__dirname, '..', 'public', 'html', 'app.html');
+    res.sendFile(url);
+})
+
 router.get('*', (req,res) => {
     const url = path.join(__dirname, '..', 'public', 'html', 'login.html');
     res.sendFile(url);

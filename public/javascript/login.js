@@ -1,13 +1,3 @@
-  // Initialize Firebase
-  const config = {
-    apiKey: "AIzaSyCvEGXGijfSUo6m-2s0GKS09ydr_Iz3BUA",
-    authDomain: "beer-tinder.firebaseapp.com",
-    databaseURL: "https://beer-tinder.firebaseio.com",
-    projectId: "beer-tinder",
-    storageBucket: "beer-tinder.appspot.com",
-    messagingSenderId: "438524528610"
-  };
-  firebase.initializeApp(config);
 
   const txtUsername = document.getElementById('txtUsername');
   const txtEmail = document.getElementById('txtEmail');
@@ -16,8 +6,6 @@
   const btnLogin = document.getElementById('btnLogin');
   const btnSignUp = document.getElementById('btnSignUp');
   const btnSingOut = document.getElementById('btnSignOut');
-  let user; // holds the current user
-
 
   // Login Event
   btnLogin.addEventListener('click', e => {
@@ -25,9 +13,11 @@
     txtEmail.classList.remove('red-border');
     txtPassword.classList.remove('red-border');
 
+    // logout any previous users
+    // logout();
+
     const email = txtEmail.value;
     const pass = txtPassword.value;
-    const auth = firebase.auth();
 
     if (!email) {
       txtEmail.classList.add('red-border');
@@ -42,10 +32,16 @@
       return;
     }
 
-    const promise = auth.signInWithEmailAndPassword(email, pass);
-
-    promise.catch(e => console.log(e.message));
-
+    login(email, pass, response => {
+      if (!response.success) {
+        loginError.innerText = response.message;
+        loginError.classList.remove('hidden');
+        return;
+      }
+      console.log('going to app');
+      // go to app if successful
+      window.location = '/app';
+    });
   });
 
 
@@ -57,10 +53,12 @@
     txtPassword.classList.remove('red-border');
     loginError.classList.add('hidden');
 
+    // logout any previous users
+    // logout();
+
     const username = txtUsername.value;
     const email = txtEmail.value;
     const pass = txtPassword.value;
-    const auth = firebase.auth();
 
     if (!username) {
       txtUsername.classList.add('red-border');
@@ -81,33 +79,23 @@
       return;
     }
 
-    auth.createUserWithEmailAndPassword(email, pass)
-      .then(user => {
-        firebase.auth().currentUser.updateProfile({
-          displayName: username
-        })
-      })
-      .catch(e => {
-        console.log(e.message);
+    signup(username, email, pass, response => {
+      if (!response.success) {
         loginError.innerText = e.message;
         loginError.classList.remove('hidden');
-      });
+        return;
+      }
+      
+      window.location = '/app';
+    })
   });
 
   btnLogout.addEventListener('click', e => {
-    firebase.auth().signOut();
+    logout();
   })
 
 
-  firebase.auth().onAuthStateChanged(firebaseUser => {
-    if (firebaseUser) {
-      user = firebaseUser;
-      console.log(firebaseUser);
-      // btnLogout.classList.remove('hide')
-    } else {
-      user = null;
-      console.log('not logged in')
-    }
-  });
+// logout previous users on load
+// logout();
 
   // console.log(firebase.UserInfo())

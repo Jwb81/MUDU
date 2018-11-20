@@ -1,7 +1,16 @@
+
+
+
 // get more cards from the server
 //returns beers that are not seen by the user
 const getUnmatchedBeers = () => {
-    const username = 'jay'; // get username here
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const username = user.displayName;
     $.ajax({
         method: 'GET',
         url: `/unmatched-beers/${username}`
@@ -27,7 +36,13 @@ const getUnmatchedBeers = () => {
 // create accordion for matched beers
 //includes ajax returns beers that are liked by the user
 const getMatchedBeers = () => {
-    const username = 'jay';
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const username = user.displayName;
     $.ajax({
             method: 'GET',
             url: `/matched-beers/${username}`
@@ -46,7 +61,13 @@ const getMatchedBeers = () => {
 
 // get drinking buddies for this user
 const getDrinkingBuddies = () => {
-    const username = 'jay';
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const username = user.displayName;
 
     $.ajax({
         method: 'GET',
@@ -154,9 +175,15 @@ const createBeerCard = (beer) => {
 
 
 const handleBeerSelection = (evt) => {
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
     // get the beer id
     const beerID = $(evt.currentTarget).data('beer-id');
-    const username = 'jay';
+    const username = user.displayName;
     const match = $(evt.currentTarget).data('match');
 
     // send the match to the database
@@ -264,8 +291,14 @@ const createBuddyLayer = buddy => {
 
 
 const handleRemoveMatch = (evt) => {
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
     const beerID = $(evt.currentTarget).data('beer-id');
-    const username = 'jay';
+    const username = user.displayName;
 
     $.ajax({
         method: 'PUT',
@@ -317,8 +350,14 @@ for (let i = 0; i < acc.length; i++) {
 }
 
 const handleChatEvent = evt => {
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
     const thisButton = evt.currentTarget;
-    const thisUsername = 'jay';
+    const thisUsername = user.displayName;
     const buddyUsername = $(thisButton).data('buddy-username');
 
     console.log(`${thisUsername} wants to chat with ${buddyUsername}`);
@@ -375,7 +414,13 @@ $('#toggle-buddy-matches').click(evt => {
 })
 
 $('#calculate-buddies').click(evt => {
-    const username = 'jay';
+    // go to the login page if the user is signed out
+    if (!user) {
+        logout();
+        window.location = '/';
+    }
+
+    const username = user.displayName;
     $.ajax({
         method: 'PUT',
         url: '/drinking-buddies',
@@ -390,6 +435,12 @@ $('#calculate-buddies').click(evt => {
 
 
 // STARTUP FUNCTIONS
-getUnmatchedBeers();
-getMatchedBeers();
-getDrinkingBuddies();
+// getUser()
+// .then(() => {
+//     getUnmatchedBeers();
+//     getMatchedBeers();
+//     getDrinkingBuddies();
+// })
+// .catch(err => {
+//     console.log(err);
+// })
