@@ -233,7 +233,6 @@ router.get('/chat-key/:me/:them', (req, res) => {
 
     orm.getChatKey(me, them)
         .then(result => {
-            console.log(result);
             res.json({
                 success: true,
                 chat_key: result.data.chat_key
@@ -244,17 +243,27 @@ router.get('/chat-key/:me/:them', (req, res) => {
         })
 })
 
-router.post('/chat-key', (req, res) => {
+router.put('/chat-key', (req, res) => {
     const me = req.body.me;
     const them = req.body.them;
+    const chatKey = req.body.chat_key;
+
+    if (!me || !them) {
+        return res.send('need both usernames');
+    }
+
+    console.log('post chatkey');
 
     orm.getChatKey(me, them)
         .then(result => {
             // now update that pairing with the usernames
             result = result.data;
-            orm.updateChatKey(result.username1, result.username2, result.chat_key)
+            orm.updateChatKey(result.username1, result.username2, chatKey)
                 .then(response => {
                     res.json(response);
+                })
+                .catch(err => {
+                    res.json(err);
                 })
         })
         .catch(err => {
@@ -266,6 +275,11 @@ router.put('/beer-match', (req, res) => {
     const username = req.body.username;
     const beerId = req.body.beer_id;
     const match = req.body.match;
+
+    console.log(username);
+    if (!username) {
+        return res.send('no username')
+    }
 
     orm.updateBeerMatch(username, beerId, match)
         .then(response => {
@@ -293,6 +307,11 @@ router.post('/beer-match', (req, res) => {
 
 router.get('/app', (req, res) => {
     const url = path.join(__dirname, '..', 'public', 'html', 'app.html');
+    res.sendFile(url);
+})
+
+router.get('/chat', (req, res) => {
+    const url = path.join(__dirname, '..', 'public', 'html', 'chat.html');
     res.sendFile(url);
 })
 

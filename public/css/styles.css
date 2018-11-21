@@ -213,6 +213,46 @@ body {
 
 
 
+
+/* CHAT PAGE */
+#chat-container {
+    /* width: 100%; */
+    display: flex;   
+    /* flex: 1; */
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(75,75,250);
+    margin: 0 auto;
+}
+
+#chat-box {
+    padding-top: 20px;
+    /* overflow-y: scroll; */
+    border-radius: 10px;
+    box-shadow: -5px -5px 10px rgba(0,0,0, 0.5);
+    width: 50%;
+    height: 90vh;
+    margin: 0 auto;
+    background-color: white;
+    position: relative;
+}
+#chat-messages {
+    height: 70%;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#chat-inputs {
+    
+}
+
+
+
+
+
+
+
 /* one style classes */
 .center {
     text-align: center;
@@ -224,6 +264,9 @@ body {
 
 .red-text {
     color: rgb(255, 100, 100);
+}
+.blue-text {
+    color: rgb(100, 100, 255);
 }
 
 .float-right {
