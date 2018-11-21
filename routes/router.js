@@ -18,7 +18,7 @@ const breweryDbURL = 'https://sandbox-api.brewerydb.com/v2/beers?key=d00fe48488b
 let allBeers = [];
 
 // read in all beer objects from file
-const filename = path.join(__dirname, '..', 'public', 'javascript', 'allBeers.js');
+const filename = path.join(__dirname, '..', 'public', 'javascript', 'allBeers.json');
 fs.readFile(filename, (err, data) => {
     if (err) throw err;
 
