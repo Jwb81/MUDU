@@ -55,6 +55,7 @@ const logout = () => {
 }
 
 const signup = (firstName, lastName, username, email, password, age, cb) => {
+    console.log(username)
     // check if username is taken
     $.ajax({
         method: 'POST',
@@ -77,10 +78,14 @@ const signup = (firstName, lastName, username, email, password, age, cb) => {
         }
 
         auth.createUserWithEmailAndPassword(email, password)
-            .then(user => {
-                firebase.auth().currentUser.updateProfile({
+            .then(newUser => {
+                console.log(newUser);
+                newUser.user.updateProfile({
                     displayName: username
+                }).then(data => {
+                    console.log(data);
                 })
+                // updateDisplayName(username);
                 return cb({
                     success: true
                 });
@@ -94,9 +99,16 @@ const signup = (firstName, lastName, username, email, password, age, cb) => {
             });
 
     })
-
-
 }
+
+
+// const updateDisplayName = (username) => {
+//     user.updateProfile({
+//         displayName: username
+//     }).then(data => {
+//         console.log(data);
+//     })
+// }
 
 const getUser = () => {
     return new Promise((resolve, reject) => {

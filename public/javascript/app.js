@@ -44,7 +44,7 @@ const getMatchedBeers = () => {
             method: 'GET',
             url: `/matched-beers/${username}`
         }).then(beers => {
-            console.log(beers)
+            // console.log(beers)
             Array.from(beers).forEach(beer => {
                 //panel is hidden at start
                 //accoridan shows alls the beers requested that are liked, accordian drops down info and creates the button and the panel that opens
@@ -375,10 +375,16 @@ const handleChatEvent = evt => {
     }
 
     const thisButton = evt.currentTarget;
-    const thisUsername = user.displayName;
-    const buddyUsername = $(thisButton).data('buddy-username');
+    const me = user.displayName;
+    const them = $(thisButton).data('buddy-username');
 
-    console.log(`${thisUsername} wants to chat with ${buddyUsername}`);
+    // getChatKey(me, them);
+    sessionStorage.setItem('me', me);
+    sessionStorage.setItem('them', them);
+
+    window.location = '/chat';
+
+    // console.log(`${thisUsername} wants to chat with ${buddyUsername}`);
 }
 
 // user account button event handlers
@@ -466,6 +472,7 @@ $('#logout-app').click(() => {
 // STARTUP FUNCTIONS
 firebase.auth().onAuthStateChanged(function (firebaseUser) {
     user = firebaseUser;
+    console.log(user);
     if (firebaseUser) {
         getUnmatchedBeers();
         getMatchedBeers();

@@ -32,10 +32,10 @@ const orm = {
 
     getChatKey: (me, them) => {
         return new Promise((resolve, reject) => {
-            const query = 'SELECT chat_key FROM drinking_buddies where ';
-            query += ' ((username1 = ? OR username1 = ?) AND (username2 = ? OR username2 = ?))';
+            let query = 'SELECT * FROM drinking_buddies where ';
+            query += ' ((username1 = ? OR username2 = ?) AND (username1 = ? OR username2 = ?))';
 
-            conn.query(query, [me, them, me, them], (err, data) => {
+            conn.query(query, [me, me, them, them], (err, data) => {
                 if (err) {
                     return reject({
                         status: 500,
@@ -66,7 +66,7 @@ const orm = {
         return new Promise((resolve, reject) => {
             const query = 'UPDATE drinking_buddies SET chat_key = ? WHERE username1 = ? AND username2 = ?';
 
-            conn.query(query, [chatKey, username1, username2], (err, data) => {
+            const q = conn.query(query, [chatKey, username1, username2], (err, data) => {
                 if (err) {
                     return reject({
                         status: 500,
