@@ -132,6 +132,9 @@ const randomizeArray = (beers) => {
 //     })
 
 
+router.get('/user/:username', (req, res) => {
+    
+})
 
 router.post('/new-user', (req, res) => {
     const firstName = req.body.first_name;
