@@ -133,7 +133,15 @@ const randomizeArray = (beers) => {
 
 
 router.get('/user/:username', (req, res) => {
-    
+    const username = req.params.username;
+
+    orm.findUser(username)
+        .then(user => {
+            res.json(user);
+        })
+        .catch(err => {
+            res.json(err);
+        })
 })
 
 router.post('/new-user', (req, res) => {

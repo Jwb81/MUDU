@@ -13,10 +13,14 @@ const loginError = document.getElementById('login-error');
 const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 // const btnSignOut = document.getElementById('btnSignOut');
-const toggleLoginForm = document.getElementById('toggle-login-forms');
+const toggleLoginForms = document.getElementById('toggle-login-forms');
+const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
 
 // Login Event
-btnLogin.addEventListener('click', e => {
+loginForm.addEventListener('submit', e => {
+  e.preventDefault();
+  
   // clear errors from before
   txtEmail.classList.remove('red-border');
   txtPassword.classList.remove('red-border');
@@ -58,7 +62,9 @@ btnLogin.addEventListener('click', e => {
 
 
 //Sign Up Event
-btnSignUp.addEventListener('click', e => {
+signupForm.addEventListener('submit', e => {
+  e.preventDefault();
+  
   // clear errors from before
   txtUsername.classList.remove('red-border');
   txtEmail.classList.remove('red-border');
@@ -128,7 +134,7 @@ btnSignUp.addEventListener('click', e => {
 //   logout();
 // })
 
-toggleLoginForm.addEventListener('click', (evt) => {
+toggleLoginForms.addEventListener('click', (evt) => {
   const thisText = evt.currentTarget.innerText;
 
   // if its on the login form, switch to the signup form

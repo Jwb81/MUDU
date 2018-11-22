@@ -12,23 +12,45 @@
   <!-- Bootstrap core CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Bootstrap -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.14/css/mdb.min.css" rel="stylesheet">
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.14/css/mdb.min.css" rel="stylesheet"> -->
 
   <link rel="stylesheet" href='../css/styles.css'>
 
   <title>Login/SignUp</title>
 </head>
 
-<body style="background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Bz2gEVJgeius27jfj/friends-cheers-beers-at-beach_b0ybmmvex_thumbnail-full01.png)">
+<!-- <body style="background-image: url(/images/repeat_wood.jpg); "> -->
+<body style="background-image: url(/images/dark_texture.jpg); ">
+<!-- <body> -->
   <div class="container" id='login-container'>
 
     <div class="login-card">
-      <h1 class="card-header-title mb-4">MUDU</h1>
+      <h1 class="card-header-title mb-4">M.U.D.U.</h1>
       <h4 class="card-header-title mb-3">Meet Up Drink Up</h4>
 
       <p id="login-error" class='hidden red-text'></p>
 
-      <div class="md-form">
+      <form id="login-form">
+        <!-- <div > -->
+        <input id='txtEmailLogin' type="text" placeholder='Email' class='form-control login-input'>
+        <input id="txtPasswordLogin" type="password" placeholder="Password" class='form-control login-input'>
+        <button id="btnLogin" type='submit' class="btn btn-primary">Login</button>
+        <!-- </div> -->
+      </form>
+      <form id="signup-form" class='hidden'>
+        <!-- <div > -->
+        <input id='txtFirstName' type="text" placeholder='First Name' class='form-control login-input'>
+        <input id='txtLastName' type="text" placeholder='Last Name' class='form-control login-input'>
+        <input id='txtUsername' type="text" placeholder='Username' class='form-control login-input'>
+        <input id="txtEmail" type="email" placeholder="Email" class='form-control login-input'>
+        <input id="txtPassword" type="password" placeholder="Password" class='form-control login-input'>
+        <!-- <input id="txtZip" type="text" placeholder="ZipCode" class="form-control login-input"> -->
+        <input id="txtAge" type="number" placeholder="Age: Must Be 21+" min='21' class="form-control login-input">
+        <button id="btnSignUp" type='submit' class="btn btn-success">Sign Up</button>
+        <!-- </div> -->
+      </form>
+
+      <!-- <div class="md-form">
         <div id="login-form">
           <input id='txtEmailLogin' type="text" placeholder='Email' class='login-input'>
           <input id="txtPasswordLogin" type="password" placeholder="Password" class='login-input'>
@@ -40,13 +62,12 @@
           <input id='txtUsername' type="text" placeholder='Username' class='login-input'>
           <input id="txtEmail" type="email" placeholder="Email" class='login-input'>
           <input id="txtPassword" type="password" placeholder="Password" class='login-input'>
-          <!-- <input id="txtZip" type="text" placeholder="ZipCode" class="login-input"> -->
           <input id="txtAge" type="number" placeholder="Age: Must Be 21+" min='21' class="login-input">
           <button id="btnSignUp" class="btn btn-success">Sign Up</button>
-        </div>
-        <a id='toggle-login-forms'>Signup instead?</a>
+        </div> -->
+      <a id='toggle-login-forms'>Signup instead?</a>
 
-        <!-- <div class="row">
+      <!-- <div class="row">
           <div class="col"></div>
           <hr>
           <div class="col-10">
@@ -54,9 +75,9 @@
           </div>
           <div class="col"></div>
         </div> -->
-      </div>
     </div>
-    <!--End of card-->
+  </div>
+  <!--End of card-->
 
   </div>
 
@@ -68,11 +89,11 @@
   <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
     crossorigin="anonymous"></script>
 
-  <script>
+  <!-- <script>
     $(document).ready(function () {
       $('body').bootstrapMaterialDesign();
     });
-  </script>
+  </script> -->
 
 
 
