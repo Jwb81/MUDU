@@ -71,7 +71,7 @@ const getDrinkingBuddies = () => {
         method: 'GET',
         url: `/drinking-buddies/${username}`
     }).then(result => {
-        $('#buddy-matches').empty();
+        console.log(result);
         result.data.forEach(buddy => {
             const newBuddyLayer = createBuddyLayer(buddy);
 

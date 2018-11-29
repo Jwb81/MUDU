@@ -263,8 +263,6 @@ router.put('/chat-key', (req, res) => {
         return res.send('need both usernames');
     }
 
-    console.log('post chatkey');
-
     orm.getChatKey(me, them)
         .then(result => {
             // now update that pairing with the usernames

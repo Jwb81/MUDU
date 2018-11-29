@@ -14,7 +14,7 @@ const getChatKey = (me, them) => {
         url: `/chat-key/${me}/${them}`
     }).then(result => {
 
-        console.log(`chat key: ${result.chat_key}`);
+        console.log(`chat key in db: ${result.chat_key}`);
 
         if (result.chat_key) {
             // console.log(`found key: ${result.chat_key}`)
@@ -45,10 +45,13 @@ const getChatKey = (me, them) => {
                 // setChatRoomListener(snap.key);
 
                 // add chat keys to s=cookies
-                sessionStorage.setItem('chat-key', snap.chat_key);
+                sessionStorage.setItem('chat-key', snap.key);
                 updateChatKey(me, them, snap.key);
                 getInitialMessages(snap.key);
                 setChatRoomListener(snap.key);
+
+                console.log(`chat key from push: ${snap.key}`)
+                console.log(`new chat key in storage: ${sessionStorage.getItem('chat-key')}`)
             })
 
         // updateChatKey(me, them, chatKey);
