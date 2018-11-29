@@ -14,8 +14,6 @@ const getChatKey = (me, them) => {
         url: `/chat-key/${me}/${them}`
     }).then(result => {
 
-        console.log(`chat key in db: ${result.chat_key}`);
-
         if (result.chat_key) {
             // console.log(`found key: ${result.chat_key}`)
 
@@ -39,7 +37,6 @@ const getChatKey = (me, them) => {
                 chat: []
             })
             .then(snap => {
-                console.log('new object pushed');
                 
                 // set the chat room listener for new messages
                 // setChatRoomListener(snap.key);
@@ -50,8 +47,6 @@ const getChatKey = (me, them) => {
                 getInitialMessages(snap.key);
                 setChatRoomListener(snap.key);
 
-                console.log(`chat key from push: ${snap.key}`)
-                console.log(`new chat key in storage: ${sessionStorage.getItem('chat-key')}`)
             })
 
         // updateChatKey(me, them, chatKey);
@@ -183,6 +178,9 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
         let them = sessionStorage.getItem('them');
         // put functions to run here
         getChatKey(me, them);
+        
+        // put the focus in the text box
+        $('#message-input').focus();
     } else {
         console.log('not logged in')
     }
