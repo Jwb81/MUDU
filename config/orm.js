@@ -82,8 +82,8 @@ const orm = {
                         status: 404,
                         message: 'Chat key did not update'
                     });
-                }      
-                
+                }
+
                 resolve({
                     success: true
                 })
@@ -225,6 +225,7 @@ const orm = {
                 const userArr = values[1].data; // holds all users in the database
                 const beerMatches = values[2].data.filter(beer => beer.matched);
 
+
                 let userMatchesPromiseArr = [];
                 userArr.forEach(user => {
                     // console.log(user.username);
@@ -234,11 +235,12 @@ const orm = {
                 Promise.all(userMatchesPromiseArr).then(values => {
                     let newBuddies = userArr.filter((user, idx) => {
                         if (user.username === username) {
-                            return false;   // filter the user out so he's not compared to itself
+                            return false; // filter the user out so he's not compared to himself
                         }
 
+                        // get this buddy's beer matches to compare against
                         const buddyMatchesArr = values[idx].data.filter(beer => beer.matched);
-                        // console.log(buddyMatchesArr)
+
                         for (let i = 0; i < buddyMatchesArr.length; i++) { // iterate through buddy's matches
                             for (let j = 0; j < beerMatches.length; j++) { // iterate through this user's matches
                                 if (buddyMatchesArr[i].beer_id === beerMatches[j].beer_id) {
@@ -248,8 +250,6 @@ const orm = {
                         }
                         return false;
                     })
-
-                    // console.log(newBuddies)
 
                     if (!newBuddies || !newBuddies.length) {
                         // console.log('no new buddies found');
@@ -266,7 +266,7 @@ const orm = {
 
                         // only return it if it nots currently in the database
                         const found = currentDrinkingBuddies.filter(x => {
-                            if (x.username1 === user.username || x.username2 === user.username) {
+                            if (x.username === user.username) {
                                 return true; // return true so 'found' is true
                             }
                             return false;
@@ -280,7 +280,6 @@ const orm = {
 
                     });
 
-
                     newBuddies = newBuddies.filter(x => {
                         // find distance between buds
                         const distance = 0; // use geolocation here
@@ -292,9 +291,7 @@ const orm = {
                         return false;
                     })
 
-                    // console.log(`New buds:`);
-                    // console.log(newBuddies);
-
+                    console.log(`new buds: ${newBuddies}`)
                     // put the new buddies into the database
                     newBuddies.forEach(x => {
                         const query = 'INSERT INTO drinking_buddies (username1, username2) VALUES (?, ?)';
