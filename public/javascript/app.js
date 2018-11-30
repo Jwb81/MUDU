@@ -449,7 +449,7 @@ $('#calculate-buddies').click(evt => {
         method: 'PUT',
         url: '/drinking-buddies',
         data: {
-            username
+            username, username
         }
     }).then(result => {
         console.log(result);
