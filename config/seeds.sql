@@ -3,13 +3,11 @@ use beer_tinder;
 -- INSERT INTO drinking_buddies (username1, username2)
 -- VALUES ('Jason Barnett', 'some random dude');
 
-INSERT INTO users (username, password, first_name, last_name, age, address, email_address) 
+INSERT INTO users (username, first_name, last_name, age, email_address) 
 VALUES 
-('LaurenSantos23', 'password1', 'Lauren', 'Santosuosso', 33, '426 Tyner Street Akron Ohio', 'Lauren.Santosuosso@yahoo.com'),
-('babyjay2114', 'hello123', 'Jason', 'Barnett', 21, '426 Tyner Street Akron Ohio', 'babyjay1497@gmail.com'),
-('test', 'test', 'Iam', 'Atest', 23, 'The Cloud', 'cloud@gmail.com'),
-('hello', 'test', 'Iam', 'Hello', 23, 'The Cloud', 'cloud@gmail.com'),
-('world', 'test', 'Iam', 'World', 23, 'The Cloud', 'cloud@gmail.com');
+('LaurenSantos23', 'Lauren', 'Santosuosso', 33, 'Lauren.Santosuosso@yahoo.com'),
+('babyjay2114', 'Jason', 'Barnett', 21, 'babyjay1497@gmail.com'),
+('testing', 'Test', 'Account', 0, '---');
 
 -- Beer Matches
 INSERT INTO beer_matches (beer_id, username, matched)

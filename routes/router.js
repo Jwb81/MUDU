@@ -179,6 +179,8 @@ router.get('/drinking-buddies/:username', (req, res) => {
 router.put('/drinking-buddies', (req, res) => {
     const username = req.body.username;
 
+    console.log(`Username in PUT(buddies) route: ${username}`)
+
     if (!username) {
         return res.send('no username given');
     }
