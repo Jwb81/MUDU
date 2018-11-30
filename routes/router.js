@@ -190,7 +190,7 @@ router.put('/drinking-buddies', (req, res) => {
             res.json(response);
         })
         .catch(err => {
-
+            res.json(err);
         })
 })
 
